@@ -2,7 +2,7 @@
 <nav class="navbar-vertical navbar">
    <div id="myScrollableElement" class="h-screen" data-simplebar>
       <!-- brand logo -->
-      <a class="navbar-brand" href="/index.html">
+      <a class="navbar-brand" href="../dashboard.php">
          <img src="/assets/images/brand/logo/logo.svg" alt="" />
       </a>
 
@@ -10,7 +10,7 @@
       <ul class="navbar-nav flex-col" id="sideNavbar">
          <!-- Dashboard -->
          <li class="nav-item">
-            <a class="nav-link" href="/index.html">
+            <a class="nav-link" href="../dashboard.php">
                <i data-feather="home" class="w-4 h-4 mr-2"></i>
                Dashboard
             </a>
@@ -41,7 +41,7 @@
                x-cloak>
                <ul class="nav flex-col">
                   <li class="nav-item">
-                     <a class="nav-link" href="#">View All Courses</a>
+                     <a class="nav-link" href="../pages/courses.php">View All Courses</a>
                   </li>
                   <li class="nav-item">
                      <a class="nav-link" href="#">Add Course</a>
@@ -70,7 +70,7 @@
                x-cloak>
                <ul class="nav flex-col">
                   <li class="nav-item">
-                     <a class="nav-link" href="/sign-in.html">View All Categories</a>
+                     <a class="nav-link" href="../pages/categories.php">View All Categories</a>
                   </li>
                </ul>
             </div>
@@ -96,7 +96,7 @@
                x-cloak>
                <ul class="nav flex-col">
                   <li class="nav-item">
-                     <a class="nav-link" href="/sign-in.html">View All Tags</a>
+                     <a class="nav-link" href="../pages/tags.php">View All Tags</a>
                   </li>
                </ul>
             </div>
@@ -127,7 +127,7 @@
                x-cloak>
                <ul class="nav flex-col">
                   <li class="nav-item">
-                     <a class="nav-link" href="#">View All Teacher</a>
+                     <a class="nav-link" href="../pages/teachers.php">View All Teacher</a>
                   </li>
 
                </ul>
