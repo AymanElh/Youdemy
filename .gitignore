@@ -5,3 +5,7 @@ vendor/
 node_modules/
 
 .env
+
+.*log
+
+./app/public/assets/css/styles.css
