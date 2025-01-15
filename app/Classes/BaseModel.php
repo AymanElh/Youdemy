@@ -4,19 +4,21 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
+use App\Config\Database;
 
 class BaseModel
 {
-    private \PDO $db;
+    private static \PDO $db;
 
-    function __construct(\PDO $conn)
+    function __construct()
     {
-        $this->db = $conn;
+        self::$db = Database::connect();
+        if(self::$db === null) {
+            throw new \Exception("Failed to connect with database");
+        }
     }
 
-    public function insertRecord(string $table, array $data) : int
+    public static function insertRecord(string $table, array $data) : int
     {
         // Use prepared statements to prevent SQL injection
         $columns = implode(',', array_keys($data));
@@ -24,24 +26,24 @@ class BaseModel
 
         $sql = "INSERT INTO $table($columns) VALUES($placeholders)";
         try {
-            $stmt = $this->db->prepare($sql);
+            $stmt = self::$db->prepare($sql);
 
             if (!$stmt) {
-                error_log("Error preparing statment: " .  implode(', ', $this->db->errorInfo()));
+                error_log("Error preparing statment: " .  implode(', ', self::$db->errorInfo()));
                 return 0;
             }
     
 
             $stmt->execute(array_values($data));
 
-            return (int)$this->db->lastInsertId();
+            return (int)self::$db->lastInsertId();
         } catch (\PDOException $e) {
             error_log($e->getMessage());
             return 0;
         }
     }
 
-    public function updateRecord(string $table, array $data, int $id) : bool
+    public static function updateRecord(string $table, array $data, int $id) : bool
     {
 
         // Use prepared statements to prevent SQL injection
@@ -53,10 +55,10 @@ class BaseModel
         $sql = "UPDATE $table SET " . implode(',', $args) . " WHERE id = ?";
 
         try {
-            $stmt = $this->db->prepare($sql);
+            $stmt = self::$db->prepare($sql);
 
             if (!$stmt) {
-                error_log("error preparing statment: " . implode(', ', $this->db->errorInfo()));
+                error_log("error preparing statment: " . implode(', ', self::$db->errorInfo()));
                 return false;
             }
 
@@ -68,15 +70,15 @@ class BaseModel
         }
     }
 
-    public function deleteRecord(string $table, int $id, string $column = 'id') : bool
+    public static function deleteRecord(string $table, int $id, string $column = 'id') : bool
     {
         $sql = "DELETE FROM $table WHERE $column = ?";
 
         try {
-            $stmt = $this->db->prepare($sql);
+            $stmt = self::$db->prepare($sql);
 
             if(!$stmt) {
-                error_log("error preparing statment: " . implode(', ', $this->db->errorInfo()));
+                error_log("error preparing statment: " . implode(', ', self::$db->errorInfo()));
                 return false;
             }
             var_dump("HELLOOD");
@@ -88,7 +90,7 @@ class BaseModel
         }
     }
 
-    public function selectRecords(string $table, string $columns = '*', string $where = null, array $args = []) : array|bool
+    public static function selectRecords(string $table, string $columns = '*', string $where = null, array $args = []) : array|bool
     {
         $sql = "SELECT $columns FROM $table";
 
@@ -97,10 +99,10 @@ class BaseModel
         }
 
         try {
-            $stmt = $this->db->prepare($sql);
+            $stmt = self::$db->prepare($sql);
 
             if(!$stmt) {
-                error_log("Error preparing statment: " . implode(', ', $this->db->errorInfo()));
+                error_log("Error preparing statment: " . implode(', ', self::$db->errorInfo()));
                 return false;
             }
 
