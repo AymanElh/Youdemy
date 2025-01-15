@@ -2,8 +2,6 @@
 
 namespace App\Config;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
 use Dotenv\Dotenv;
 use PDO;
 use PDOException;
@@ -18,24 +16,16 @@ class Database
 
     private function __construct() {}
 
-    private static function getInstance() : Database
-    {
-        if(self::$conn === null) {
-            return new self();
-        }
-        return self::$conn;
-    }
-
-    public function connect() : Database
+    public static function connect()
     {
         if(self::$conn === null) {
             try {
-                self::$conn = self::getInstance();
                 self::$conn = new PDO("mysql:host=" . $_ENV['DB_HOST'] . ";dbname=" . $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
                 self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
             catch(PDOException $e) {
                 error_log("Database connection error: " . $e->getMessage());
+                return null;
             }
         }
         return self::$conn;
