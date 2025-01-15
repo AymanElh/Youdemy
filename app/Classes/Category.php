@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Classes;
 
 use App\Classes\BaseModel;
 
@@ -13,13 +13,13 @@ class Category
     private static $table;
 
     function __construct() {
-        $this->table = 'categories';
+        self::$table = 'categories';
     }
 
-    public function createCategory(string $name) : void
+    public function createCategory(string $name) : int
     {
-        BaseModel::insertRecord(self::$table, ['name' => $name]);
         self::$nbrOfCategories++;
+        return BaseModel::insertRecord(self::$table, ['name' => $name]);
     }
 
     public function deleteCategory(int $id) : void
@@ -45,6 +45,16 @@ class Category
     public static function getTotalNumberOfCategories() : int
     {
         return self::$nbrOfCategories;
+    }
+
+    public function getCategoryId(string $name) : int
+    {
+        $where = 'name = ?';
+        $result = BaseModel::selectRecords(self::$table, 'id', $where, [$name]);
+        if($result) {
+            return $result[0]['id'];
+        }
+        return 0;
     }
 
     public function getCategoryName(int $category_id) : string

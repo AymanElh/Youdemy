@@ -3,11 +3,12 @@
 namespace App\Config;
 
 use Dotenv\Dotenv;
-use PDO;
-use PDOException;
 
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
+
+use PDO;
+use PDOException;
 
 // Creation of the database connection class with singleton method
 class Database
