@@ -1,118 +1,94 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width" />
-    <meta
-        name="description"
-        content="Youdemy - Online Learning Platform" />
-    <?php include '../partials/head.php' ?>
-    <link rel="stylesheet" href="../../node_modules/apexcharts/dist/apexcharts.css" />
-    <link rel="stylesheet" href="../../public/assets/css/theme.css" />
-    <link rel="stylesheet" href="../../public/assets/css/styles.css" />
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
-    <title>Courses - Youdemy</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses to Enroll</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="bg-gray-100 text-gray-800 font-sans">
 
-<body>
-    <main>
-        <!-- start the project -->
-        <!-- app layout -->
-        <div id="app-layout" class="overflow-x-hidden flex">
-            <?php include '../partials/navbar-vertical.php'; ?>
-            <!-- app layout content -->
-            <div id="app-layout-content" class="min-h-screen w-full min-w-[100vw] md:min-w-0 ml-[15.625rem] [transition:margin_0.25s_ease-out]">
-                <?php include '../partials/top-navbar.php'; ?>
+    <!-- Header Section -->
+    <header class="bg-blue-600 text-white py-4">
+        <div class="container mx-auto text-center">
+            <h1 class="text-3xl font-semibold">Available Courses</h1>
+            <p class="mt-2 text-lg">Enroll in our top courses to level up your skills</p>
+        </div>
+    </header>
 
-                <!-- Page Header -->
-                <div class="bg-indigo-600 px-6 pt-6 pb-8 h-20 flex justify-between items-center mb-8">
-                    <h1 class="text-lg text-white">Courses</h1>
-                    <nav class="text-white text-sm">
-                        <a href="../dashboard.php" class="hover:underline">Dashboard</a> / Courses
-                    </nav>
-                    <a href="#" class="btn bg-white text-gray-800 border-gray-600 hover:bg-gray-100 hover:text-gray-800 hover:border-gray-200 active:bg-gray-100 active:text-gray-800 active:border-gray-200 focus:outline-none focus:ring-4 focus:ring-indigo-300">Create New Course</a>
-                </div>
+    <!-- Main Content Section -->
+    <main class="py-8">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
 
-                <!-- Courses Table -->
-                <div class="mx-6 mb-6">
-                    <div class="card shadow">
-                        <!-- Table Heading -->
-                        <div class="border-b border-gray-300 px-5 py-4">
-                            <h4>Courses List</h4>
-                        </div>
-
-                        <!-- Table -->
-                        <div class="relative overflow-x-auto">
-                            <table class="data-table text-left w-full whitespace-nowrap">
-                                <thead class="">
-                                    <tr class="border-gray-300 border-b ">
-                                        <th scope="col" class="px-6 py-3">#</th>
-                                        <th scope="col" class="px-6 py-3">Course Name</th>
-                                        <th scope="col" class="px-6 py-3">Category</th>
-                                        <th scope="col" class="px-6 py-3">Tags</th>
-                                        <th scope="col" class="px-6 py-3">Teacher</th>
-                                        <th scope="col" class="px-6 py-3">Created Date</th>
-                                        <th scope="col" class="px-6 py-3">Status</th>
-                                        <th scope="col" class="px-6 py-3">Enrolls</th>
-                                        <th scope="col" class="px-6 py-3">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y ">
-                                    <tr class="border-gray-300 border-b ">
-                                        <td class="py-3 px-6 text-left">1</td>
-                                        <td class="py-3 px-6 text-left">Introduction to Computer Science</td>
-                                        <td class="py-3 px-6 text-left">Computer Science</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">C</span>
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">Python</span>
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">SQL</span>
-                                        </td>
-                                        <td class="py-3 px-6 text-left">Ayman Elh</td>
-                                        <td class="py-3 px-6 text-left">2024-12-12</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <span class="bg-green-100 text-green-800 text-sm font-medium px-2 py-1 rounded">Published</span>
-                                        </td>
-                                        <td class="py-3 px-6 text-left">20</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <button class="btn btn-sm bg-indigo-500 text-white">Edit</button>
-                                            <button class="btn btn-sm bg-red-500 text-white">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-gray-300 border-b ">
-                                        <td class="py-3 px-6 text-left">1</td>
-                                        <td class="py-3 px-6 text-left"> to Computer Science</td>
-                                        <td class="py-3 px-6 text-left">aract</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">C</span>
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">Python</span>
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">SQL</span>
-                                        </td>
-                                        <td class="py-3 px-6 text-left">Ayman Elh</td>
-                                        <td class="py-3 px-6 text-left">2024-12-12</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <span class="bg-green-100 text-green-800 text-sm font-medium px-2 py-1 rounded">Published</span>
-                                        </td>
-                                        <td class="py-3 px-6 text-left">20</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <button class="btn btn-sm bg-indigo-500 text-white">Edit</button>
-                                            <button class="btn btn-sm bg-red-500 text-white">Delete</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+            <!-- Course 1 -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="https://picsum.photos/id/1/400/200" alt="Course 1" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold">Web Development Bootcamp</h3>
+                    <p class="text-gray-600 mt-2">Learn how to build websites and web apps from scratch using HTML, CSS, JavaScript, and more.</p>
+                    <a href="#" class="block mt-4 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700">Enroll Now</a>
                 </div>
             </div>
+
+            <!-- Course 2 -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="https://picsum.photos/id/1/400/200" alt="Course 2" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold">Data Science for Beginners</h3>
+                    <p class="text-gray-600 mt-2">Start your journey into data science, learning Python, data analysis, and machine learning fundamentals.</p>
+                    <a href="#" class="block mt-4 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700">Enroll Now</a>
+                </div>
+            </div>
+
+            <!-- Course 3 -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="https://picsum.photos/id/1/400/200" alt="Course 3" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold">UI/UX Design Masterclass</h3>
+                    <p class="text-gray-600 mt-2">Learn how to design user-friendly and visually appealing interfaces, as well as the principles of user experience.</p>
+                    <a href="#" class="block mt-4 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700">Enroll Now</a>
+                </div>
+            </div>
+
+            <!-- Course 4 -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="https://picsum.photos/id/1/400/200" alt="Course 4" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold">Digital Marketing Strategies</h3>
+                    <p class="text-gray-600 mt-2">Master the latest trends in digital marketing, SEO, social media, and paid advertising to grow your business.</p>
+                    <a href="#" class="block mt-4 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700">Enroll Now</a>
+                </div>
+            </div>
+
+            <!-- Course 5 -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="https://picsum.photos/id/1/400/200" alt="Course 5" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold">Mobile App Development</h3>
+                    <p class="text-gray-600 mt-2">Learn how to build mobile applications using React Native, Flutter, and other cutting-edge frameworks.</p>
+                    <a href="#" class="block mt-4 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700">Enroll Now</a>
+                </div>
+            </div>
+
+            <!-- Course 6 -->
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <img src="https://picsum.photos/id/1/400/200" alt="Course 6" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold">Cloud Computing Essentials</h3>
+                    <p class="text-gray-600 mt-2">Dive into the world of cloud computing and learn how to work with platforms like AWS, Azure, and Google Cloud.</p>
+                    <a href="#" class="block mt-4 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700">Enroll Now</a>
+                </div>
+            </div>
+
         </div>
-        <!-- end of project -->
     </main>
-    <script src="../../public/assets/js/index.js"></script>
+
+    <!-- Footer Section -->
+    <footer class="bg-blue-600 text-white py-4">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 Your Education Platform. All rights reserved.</p>
+        </div>
+    </footer>
 
 </body>
-
 </html>

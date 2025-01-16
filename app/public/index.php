@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use App\Config\Database;
 
 
-$db = Database::connect();  
+$db = Database::connect();
 
 ?>
 
@@ -27,6 +27,7 @@ $db = Database::connect();
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <!-- Feather Icons -->
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
 </head>
 
 <body class="bg-gray-100">
@@ -38,10 +39,10 @@ $db = Database::connect();
             <!-- Navigation -->
             <nav class="space-x-6">
                 <a href="#" class="hover:text-indigo-300">Home</a>
-                <a href="#" class="hover:text-indigo-300">Courses</a>
+                <a href="../views/pages/courses.php" class="hover:text-indigo-300">Courses</a>
                 <a href="#" class="hover:text-indigo-300">About</a>
                 <a href="#" class="hover:text-indigo-300">Contact</a>
-                <a href="#" class="bg-white text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50">Sign Up</a>
+                <a href="../views/pages/signup.php" class="bg-white text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50">Sign Up</a>
             </nav>
         </div>
     </header>
@@ -55,12 +56,10 @@ $db = Database::connect();
                 <input
                     type="text"
                     placeholder="Search for courses..."
-                    class="w-96 px-4 py-3 rounded-l-lg focus:outline-none text-gray-800"
-                />
+                    class="w-96 px-4 py-3 rounded-l-lg focus:outline-none text-gray-800" />
                 <button
                     type="submit"
-                    class="bg-white text-indigo-600 px-6 py-3 rounded-r-lg hover:bg-indigo-50"
-                >
+                    class="bg-white text-indigo-600 px-6 py-3 rounded-r-lg hover:bg-indigo-50">
                     Search
                 </button>
             </form>
