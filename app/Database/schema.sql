@@ -15,7 +15,8 @@ CREATE TABLE users (
     profilePicture VARCHAR(255),
     dateOfBirth DATE,
     creationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    role ENUM('admin', 'teacher', 'student')
+    role ENUM('admin', 'teacher', 'student'),
+    status ENUM('pending', 'accepted', 'refused', 'banned')
 );
 
 
