@@ -31,13 +31,13 @@ abstract class User
         $this->fullName = $fullName;
         $this->username = $username;
         $this->email = $email;
-        $this->password = password_hash($password, PASSWORD_BCRYPT);
+        $this->password = $password;
         $this->bio = $bio;
         $this->profilePic = $profilePic;
         $this->dateOfBirth = $this->$dateOfBirth;
         $this->role = $role;
         $this->table = 'users';
-        $this->id = $id;
+        $this->id = $id = null;
     }
 
     public function getId(): ?int
@@ -119,6 +119,18 @@ abstract class User
         catch (\Exception $e) {
             error_log("Error changing the role: " . $e->getMessage());
             return false;
+        }
+    }
+
+    public static function getUser(string $email) : ?array
+    {
+        try {
+            $where = "email = ?";
+            return BaseModel::selectRecords('users', '*', $where, [$email]) ?? null;
+        }
+        catch(\Exception $e) {
+            error_log("error gettting the user" . $e->getMessage());
+            return null;
         }
     }
 
