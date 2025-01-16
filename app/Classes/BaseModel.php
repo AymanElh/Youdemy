@@ -8,7 +8,7 @@ use App\Config\Database;
 
 class BaseModel
 {
-    private static \PDO $db;
+    private static $db;
 
     function __construct()
     {

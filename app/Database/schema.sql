@@ -60,6 +60,6 @@ CREATE TABLE enrollments (
     courseId INT,
     userId INT,
     enrollmentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('active', 'completed'),
+    status ENUM('active', 'completed') DEFAULT 'active',
     finishedDate DATE
 )
