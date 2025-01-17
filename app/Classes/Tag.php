@@ -1,8 +1,6 @@
 <?php
 
-namespace Classes;
-
-require_once __DIR__ . '/../vendor/autoload.php';
+namespace App\Classes;
 
 
 use App\Classes\BaseModel;

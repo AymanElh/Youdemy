@@ -51,12 +51,12 @@ class Course
         return $this->tags;
     }
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId($id) 
+    public function setId($id)
     {
         $this->id = $id;
     }
@@ -64,16 +64,16 @@ class Course
 
     public function create(CourseManagment $courseCreator): bool
     {
-        if($this->id === null) {
+        if ($this->id === null) {
             return $courseCreator->createCourse($this);
         }
 
         return false;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
-        if($this->id === null) {
+        if ($this->id === null) {
             throw new \Exception("Id cannot be null for updating");
         }
 
@@ -104,19 +104,38 @@ class Course
         }
     }
 
-    public function delete() : bool 
+    public function delete(): bool
     {
-        if($this->id === null) {
+        if ($this->id === null) {
             throw new \Exception("Id cannot be null for deleting");
         }
 
         try {
             return BaseModel::deleteRecord('courses', $this->id);
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             error_log("Error deleting item: " . $e->getMessage());
             return false;
         }
     }
 
+    public static function getCourseById(int $id): ?Course
+    {
+        $where = "id = ?";
+        $result = BaseModel::selectRecords('courses', '*', $where, [$id]);
+
+        if ($result) {
+            
+            $courseData = $result[0];
+
+            $tags = BaseModel::selectRecords('course_tags', 'tag_id', 'course_id = ?', [$id]);
+            $tagIds = [];
+            foreach($tags as $tag) {
+                $tagIds[] = $tag;
+            }
+
+            return new Course($courseData['title'], $courseData['description'], $courseData['content'], $courseData['category_id'], $tagIds, $courseData['id']);
+        }
+
+        return null;
+    }
 }

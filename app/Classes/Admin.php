@@ -2,6 +2,7 @@
 
 namespace App\Classes;
 
+use App\Classes\User;
 use App\Classes\BaseModel;
 
 class Admin extends User
