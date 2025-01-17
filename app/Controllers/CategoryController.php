@@ -14,7 +14,7 @@ class CategoryController
         $this->category = new Category();
     }
 
-    public function createCategory(array $data): string
+    public function createCategory($data): string
     {
 
         $name = Validation::sanitizeInput($data['name'] ?? '');

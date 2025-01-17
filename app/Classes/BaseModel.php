@@ -97,7 +97,6 @@ class BaseModel
         if($where !== NULL) {
             $sql .= " WHERE $where";
         }
-
         try {
             $stmt = self::$db->prepare($sql);
 
