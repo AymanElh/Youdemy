@@ -10,127 +10,170 @@ $db = Database::connect();
 
 ?>
 
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-        name="description"
-        content="Youdemy - Online Learning Platform" />
-    <title>Youdemy - Home</title>
-    <!-- Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <!-- Feather Icons -->
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Hub - Online Courses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<body class="bg-gray-100">
-    <!-- Header -->
-    <header class="bg-indigo-600 text-white">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <!-- Logo -->
-            <a href="/" class="text-2xl font-bold">Youdemy</a>
-            <!-- Navigation -->
-            <nav class="space-x-6">
-                <a href="#" class="hover:text-indigo-300">Home</a>
-                <a href="../views/pages/courses.php" class="hover:text-indigo-300">Courses</a>
-                <a href="#" class="hover:text-indigo-300">About</a>
-                <a href="#" class="hover:text-indigo-300">Contact</a>
-                <a href="../views/pages/signup.php" class="bg-white text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50">Sign Up</a>
-            </nav>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl font-bold text-blue-600">Youdemy</a>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <input type="text" placeholder="Search courses..." class="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <a href="#" class="text-gray-600 hover:text-blue-600">Categories</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600">My Courses</a>
+                    <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Sign In</a>
+                </div>
+            </div>
         </div>
-    </header>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="bg-indigo-600 text-white py-20">
-        <div class="container mx-auto px-6 text-center">
-            <h1 class="text-4xl font-bold mb-4">Learn New Skills Online</h1>
-            <p class="text-lg mb-8">Join thousands of students and start learning today.</p>
-            <form class="flex justify-center">
-                <input
-                    type="text"
-                    placeholder="Search for courses..."
-                    class="w-96 px-4 py-3 rounded-l-lg focus:outline-none text-gray-800" />
-                <button
-                    type="submit"
-                    class="bg-white text-indigo-600 px-6 py-3 rounded-r-lg hover:bg-indigo-50">
-                    Search
+    <div class="bg-gradient-to-r from-blue-500 to-blue-700 text-white">
+        <div class="max-w-7xl mx-auto px-4 py-20">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">Learn Without Limits</h1>
+                <p class="text-xl mb-8">Access thousands of courses from expert instructors worldwide</p>
+                <button class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100">
+                    Start Learning
                 </button>
-            </form>
+            </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Featured Categories -->
+    <div class="max-w-7xl mx-auto px-4 py-16">
+        <h2 class="text-3xl font-bold mb-8">Top Categories</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+                <div class="text-4xl mb-4">💻</div>
+                <h3 class="font-semibold">Programming</h3>
+                <p class="text-gray-600">500+ Courses</p>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+                <div class="text-4xl mb-4">📊</div>
+                <h3 class="font-semibold">Business</h3>
+                <p class="text-gray-600">300+ Courses</p>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+                <div class="text-4xl mb-4">🎨</div>
+                <h3 class="font-semibold">Design</h3>
+                <p class="text-gray-600">200+ Courses</p>
+            </div>
+            <div class="bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+                <div class="text-4xl mb-4">📱</div>
+                <h3 class="font-semibold">Marketing</h3>
+                <p class="text-gray-600">400+ Courses</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Featured Courses -->
-    <section class="container mx-auto px-6 py-12">
-        <h2 class="text-3xl font-bold text-center mb-8">Featured Courses</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Course Card 1 -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img src="https://via.placeholder.com/400x200" alt="Course Image" class="w-full h-48 object-cover" />
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">FrontEnd Development</h3>
-                    <p class="text-gray-600 mb-4">Learn HTML, CSS, and JavaScript to build modern web applications.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-indigo-600 font-bold">$49.99</span>
-                        <a href="#" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Enroll Now</a>
+    <div class="bg-gray-50 py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8">Featured Courses</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Course Card 1 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+                    <img src="/api/placeholder/400/200" alt="Course thumbnail" class="w-full object-cover">
+                    <div class="p-6">
+                        <div class="text-sm text-blue-600 mb-2">Programming</div>
+                        <h3 class="text-xl font-semibold mb-2">Complete PHP OOP Course 2024</h3>
+                        <p class="text-gray-600 mb-4">Learn object-oriented programming with PHP from scratch</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-800 font-bold">$49.99</span>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Enroll Now
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Course Card 2 -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img src="https://via.placeholder.com/400x200" alt="Course Image" class="w-full h-48 object-cover" />
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">Backend Development</h3>
-                    <p class="text-gray-600 mb-4">Master Node.js, Express, and MongoDB to build scalable APIs.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-indigo-600 font-bold">$59.99</span>
-                        <a href="#" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Enroll Now</a>
+                <!-- Course Card 2 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+                    <img src="/api/placeholder/400/200" alt="Course thumbnail" class="w-full object-cover">
+                    <div class="p-6">
+                        <div class="text-sm text-blue-600 mb-2">Web Development</div>
+                        <h3 class="text-xl font-semibold mb-2">MySQL Database Mastery</h3>
+                        <p class="text-gray-600 mb-4">Master MySQL database design and optimization</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-800 font-bold">$39.99</span>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Enroll Now
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Course Card 3 -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img src="https://via.placeholder.com/400x200" alt="Course Image" class="w-full h-48 object-cover" />
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2">Full Stack Development</h3>
-                    <p class="text-gray-600 mb-4">Become a full-stack developer with React, Node.js, and SQL.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-indigo-600 font-bold">$79.99</span>
-                        <a href="#" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Enroll Now</a>
+                <!-- Course Card 3 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+                    <img src="/api/placeholder/400/200" alt="Course thumbnail" class="w-full object-cover">
+                    <div class="p-6">
+                        <div class="text-sm text-blue-600 mb-2">Web Design</div>
+                        <h3 class="text-xl font-semibold mb-2">Tailwind CSS Masterclass</h3>
+                        <p class="text-gray-600 mb-4">Build modern responsive websites with Tailwind CSS</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-800 font-bold">$29.99</span>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Enroll Now
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- Call to Action -->
-    <section class="bg-indigo-600 text-white py-20">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-4">Start Learning Today</h2>
-            <p class="text-lg mb-8">Join thousands of students and advance your career.</p>
-            <a href="#" class="bg-white text-indigo-600 px-8 py-3 rounded-lg hover:bg-indigo-50">Get Started</a>
+    <div class="bg-blue-600 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">Start Teaching Today</h2>
+            <p class="text-xl mb-8">Share your knowledge and earn money by creating online courses</p>
+            <button class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100">
+                Become an Instructor
+            </button>
         </div>
-    </section>
+    </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2023 Youdemy. All rights reserved.</p>
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">LearnHub</h3>
+                    <p class="text-gray-400">Empower yourself with quality online education</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Categories</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Development</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Business</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Design</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Subscribe for updates</p>
+                    <input type="email" placeholder="Enter your email" class="w-full px-4 py-2 rounded-lg text-gray-800">
+                </div>
+            </div>
         </div>
     </footer>
-
-    <!-- Feather Icons -->
-    <script>
-        feather.replace();
-    </script>
 </body>
-
 </html>

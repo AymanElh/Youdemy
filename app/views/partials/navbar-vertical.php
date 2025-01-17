@@ -2,7 +2,7 @@
 <nav class="navbar-vertical navbar">
    <div id="myScrollableElement" class="h-screen" data-simplebar>
       <!-- brand logo -->
-      <a class="navbar-brand" href="../dashboard.php">
+      <a class="navbar-brand" href="../Dashboard/dashboard.php">
          <img src="/assets/images/brand/logo/logo.svg" alt="" />
       </a>
 
@@ -41,7 +41,7 @@
                x-cloak>
                <ul class="nav flex-col">
                   <li class="nav-item">
-                     <a class="nav-link" href="../pages/courses.php">View All Courses</a>
+                     <a class="nav-link" href="../Dashboard/pages/courses.php">View All Courses</a>
                   </li>
                   <li class="nav-item">
                      <a class="nav-link" href="#">Add Course</a>
@@ -70,7 +70,7 @@
                x-cloak>
                <ul class="nav flex-col">
                   <li class="nav-item">
-                     <a class="nav-link" href="../pages/categories.php">View All Categories</a>
+                     <a class="nav-link" href="../Dashboard/pages/categories.php">View All Categories</a>
                   </li>
                </ul>
             </div>
@@ -96,7 +96,7 @@
                x-cloak>
                <ul class="nav flex-col">
                   <li class="nav-item">
-                     <a class="nav-link" href="../pages/tags.php">View All Tags</a>
+                     <a class="nav-link" href="../Dashboard/pages/tags.php">View All Tags</a>
                   </li>
                </ul>
             </div>
@@ -127,7 +127,7 @@
                x-cloak>
                <ul class="nav flex-col">
                   <li class="nav-item">
-                     <a class="nav-link" href="../pages/teachers.php">View All Teacher</a>
+                     <a class="nav-link" href="../Dashboard/pages/teachers.php">View All Teacher</a>
                   </li>
 
                </ul>
