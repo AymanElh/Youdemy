@@ -16,9 +16,6 @@ class Auth
         $username = Validation::sanitizeInput($data['username'] ?? '');
         $password = $data['password'] ?? '';
         $confirmPassword = $data['confirmPassword'] ?? '';
-        $bio = $data['bio'] ?? '';
-        $profilePicture = $data['profilePic'] ?? '';
-        $dateOfBirth = $data['dateOfBirth'] ?? '';
         $role = $data['role'] ?? 'student';
 
 
@@ -34,16 +31,14 @@ class Auth
             return "Passwords do not match.";
         }
 
-        if(User::getUser($email)) {
-            return "User is already exist";
-        }
+
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
         if($role === 'student') {
-            $student = new Student($fullName, $username, $email, $hashedPassword, $bio, $profilePicture, $dateOfBirth, $role);
-            if($student->createUser()) {
-                return true;
+                $student = new Student($fullName, $username, $email, $hashedPassword, 'student');
+                if($student->createUser()) {
+                return "singup success";
             }
         }
 
@@ -58,9 +53,9 @@ class Auth
             return "the user doesn't exist";
         }
 
-        if(password_verify($password, $userData['passwordHashed'])) {
+        if(password_verify($password, $userData[0]['passwordHashed'])) {
             Session::set('user', $userData);
-            return true;
+            return "login successfuly";
         }
 
         return false;

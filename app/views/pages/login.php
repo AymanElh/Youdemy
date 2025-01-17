@@ -1,3 +1,33 @@
+<?php
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/../../config/error_config.php';
+
+use App\Controllers\Auth\Auth;
+use App\Classes\BaseModel;
+
+$baseModel = new BaseModel();
+
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+
+    $authentication = new Auth();
+    $result = $authentication->login('aymanelh@gmail.com', '123456');
+    if($result === "login successfuly") {
+        echo "login successfully";
+        header("Location: ../Dashboard/dashboard.php");
+    } else {
+        echo "Login failed";
+        die();
+    }
+}
+
+?>
+
+
 <!doctype html>
 <html lang="en">
 
@@ -27,7 +57,7 @@
                     <p class="mb-6">Please enter your user information.</p>
                 </div>
                 <!-- form -->
-                <form>
+                <form method="POST">
                     <!-- username -->
                     <div class="mb-3">
                         <label for="email" class="inline-block mb-2">Username or email</label>

@@ -15,12 +15,10 @@ class Student extends User
         string $username,
         string $email,
         string $password,
-        string $bio,
-        string $profilePic,
-        string $dateOfBirth,
+        string $role,
         ?int $id = null
     ) {
-        parent::__construct($fullName, $username, $email, $password, $bio, $profilePic, $dateOfBirth, 'student', $id);
+        parent::__construct($fullName, $username, $email, $password, $role);
         $this->enrollService = new Enroll();
     }
 

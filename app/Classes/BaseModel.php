@@ -33,12 +33,12 @@ class BaseModel
                 return 0;
             }
     
-
+            var_dump(($stmt));
             $stmt->execute(array_values($data));
 
             return (int)self::$db->lastInsertId();
         } catch (\PDOException $e) {
-            error_log($e->getMessage());
+            error_log("SQL Error: " . $e->getMessage() . "\nQuery: " . $sql);
             return 0;
         }
     }
