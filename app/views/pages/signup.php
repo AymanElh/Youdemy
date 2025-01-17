@@ -1,3 +1,46 @@
+<?php
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/../../config/error_config.php';
+
+use App\Controllers\Auth\Auth;
+use App\Classes\BaseModel;
+
+$baseModel = new BaseModel();
+
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
+    
+    $data = [
+        "fullName" => $_POST['fullName'],
+        "username" => $_POST['username'],
+        "email" => $_POST['email'],
+        "password" => $_POST['password'],
+        "confirmPassword" => $_POST['confirm-password'],
+        "role" => 'student'
+    ];
+
+    // $data = [
+    //     "fullName" => 'ayman',
+    //     "username" => 'aymanelh',
+    //     "email" => "aymanelh@gmail.com",
+    //     "password" => "123456",
+    //     "confirmPassword" => "123456",
+    //     "role" => 'student'
+    // ];
+
+    $authentication = new Auth();
+    $result = $authentication->singup($data);
+    if(!$result) {
+        throw new \Exception("invalide singup");
+    } else if($result === "signup success") {
+        echo "user inserted successfuly";
+        header("Location: ../../public/index.php");
+        exit;
+    }
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -25,9 +68,19 @@
                     <p class="mb-6">Please enter your user information.</p>
                 </div>
                 <!-- form -->
-                <form>
+                <form action="" method="POST">
                     <!-- username -->
                     <div class="lg:flex 2xl:block gap-4">
+                        <div class="mb-3">
+                            <label for="fullName" class="inline-block mb-2">Full Name</label>
+                            <input
+                                type="text"
+                                id="username"
+                                class="border border-gray-300 text-gray-900 rounded focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2 px-3 disabled:opacity-50 disabled:pointer-events-none"
+                                name="fullName"
+                                placeholder="Full Name"
+                                required="" />
+                        </div>
                         <div class="mb-3">
                             <label for="username" class="inline-block mb-2">User Name</label>
                             <input
@@ -68,7 +121,7 @@
                             type="password"
                             id="confirm-password"
                             class="border border-gray-300 text-gray-900 rounded focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2 px-3 disabled:opacity-50 disabled:pointer-events-none"
-                            name="password"
+                            name="confirm-password"
                             placeholder="**************"
                             required="" />
                     </div>
@@ -91,6 +144,7 @@
                         <div class="grid">
                             <button
                                 type="submit"
+                                name="signup"
                                 class="btn bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-800 hover:border-indigo-800 active:bg-indigo-800 active:border-indigo-800 focus:outline-none focus:ring-4 focus:ring-indigo-300">
                                 Create Free Account
                             </button>

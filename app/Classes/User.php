@@ -22,10 +22,10 @@ abstract class User
         string $username,
         string $email,
         string $password,
-        string $bio,
-        string $profilePic,
-        string $dateOfBirth,
         string $role,
+        string $bio = '',
+        string $profilePic = '',
+        string $dateOfBirth = '',
         ?int $id = null
     ) {
         $this->fullName = $fullName;
@@ -34,10 +34,10 @@ abstract class User
         $this->password = $password;
         $this->bio = $bio;
         $this->profilePic = $profilePic;
-        $this->dateOfBirth = $this->$dateOfBirth;
+        $this->dateOfBirth = $dateOfBirth;
         $this->role = $role;
         $this->table = 'users';
-        $this->id = $id = null;
+        $this->id = $id;
     }
 
     public function getId(): ?int
@@ -56,10 +56,10 @@ abstract class User
             "fullName" => $this->fullName,
             "username" => $this->username,
             "email" => $this->email,
-            "password" => $this->password,
+            "passwordHashed" => $this->password,
             "bio" => $this->bio,
             "profilePicture" => $this->profilePic,
-            "dateOfBirth" => $this->dateOfBirth,
+            "dateOfBirth" => '2022-12-01',
             "role" => $this->role
         ];
 
