@@ -2,6 +2,7 @@
 
 namespace App\Classes;
 
+use App\Classes\User;
 use App\Classes\Enroll;
 use App\Config\Database;
 
@@ -27,7 +28,7 @@ class Student extends User
     public function enrollInCourse(int $courseId): bool
     {
         if ($this->getId() === null) {
-            throw new \InvalidArgumentException("Student must have an ID to enroll in a course.");
+            throw new \InvalidArgumentException("Invalid student Id");
         }
 
         try {
