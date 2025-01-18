@@ -3,6 +3,7 @@
 namespace App\Classes;
 
 use App\Classes\Interfaces\CourseManagment;
+use App\Config\Database;
 
 class Course
 {
@@ -11,10 +12,11 @@ class Course
     private string $description;
     private string $content;
     private int $categoryId;
-    // private Teacher $teacher;
+    private string $creationDate;
+    private int $teacherId;
     private array $tags = [];
 
-    public function __construct(string $title, string $description, string $content, string $category, array $tags, int $id = null)
+    public function __construct(string $title, string $description, string $content, string $category, array $tags, int $teacherId, string $date = '', int $id = null)
     {
         $this->title = $title;
         $this->description = $description;
@@ -22,6 +24,8 @@ class Course
         $this->categoryId = $category;
         // $this->teacher = $teacher;
         $this->tags = $tags;
+        $this->creationDate = $date;
+        $this->teacherId = $teacherId;
         $this->id = $id;
     }
 
@@ -54,6 +58,16 @@ class Course
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getTeacherId(): ?int
+    {
+        return $this->teacherId;
+    }
+
+    public function getCreationDate(): string
+    {
+        return $this->creationDate;
     }
 
     public function setId($id)
@@ -92,7 +106,7 @@ class Course
                 BaseModel::deleteRecord('courseTags', $this->id);
                 foreach ($this->getTags() as $tag) {
                     if ($tag) {
-                        BaseModel::insertRecord('course_tags', ['course_id' => $this->id, 'tag_id' => $tag]);
+                        BaseModel::insertRecord('courseTags', ['course_id' => $this->id, 'tag_id' => $tag]);
                     }
                 }
             }
@@ -124,29 +138,48 @@ class Course
         $result = BaseModel::selectRecords('courses', '*', $where, [$id]);
 
         if ($result) {
-            
+
             $courseData = $result[0];
 
-            $tags = BaseModel::selectRecords('course_tags', 'tag_id', 'course_id = ?', [$id]);
+            $tags = BaseModel::selectRecords('courseTags', 'tagId', 'courseId = ?', [$id]);
             $tagIds = [];
-            foreach($tags as $tag) {
-                $tagIds[] = $tag;
+            foreach ($tags as $tag) {
+                $tagIds[] = $tag['tagId'];
             }
 
-            return new Course($courseData['title'], $courseData['description'], $courseData['content'], $courseData['category_id'], $tagIds, $courseData['id']);
+            return new Course($courseData['title'], $courseData['description'], $courseData['content'], $courseData['categoryId'], $tagIds, $courseData['teacherId'], $courseData['creationDate'], $courseData['id']);
         }
 
         return null;
     }
 
-    public static function getAllCourses() : array
+    public static function getAllCourses(): array
     {
         return BaseModel::selectRecords('courses');
     }
 
-    public static function getCourseTags(int $courseid) : array
+    public static function getCourseTags(int $courseid): array
     {
         $where = "courseId = ?";
         return BaseModel::selectRecords('coursetags', 'tagId', $where, [$courseid]) ?: [];
+    }
+
+    public static function getLimitCourses(int $limit, int $offset): array|bool
+    {
+        $query = "SELECT * FROM courses LIMIT :limit OFFSET :offset;";
+        $stmt = (Database::connect())->prepare($query);
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            return $result ?: [];
+        }
+
+        return false;
+    }
+
+    public static function getCountCourses(): array
+    {
+        return BaseModel::selectRecords('courses', 'COUNT(*) AS totalCourses');
     }
 }

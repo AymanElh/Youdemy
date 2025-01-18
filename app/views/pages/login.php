@@ -8,23 +8,24 @@ use App\Classes\BaseModel;
 
 $baseModel = new BaseModel();
 
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $email = $_POST['email'];
     $password = $_POST['password'];
 
 
     $authentication = new Auth();
-    $result = $authentication->login('aymanelh@gmail.com', '123456');
-    if($result === "login successfuly") {
+    $result = $authentication->login($email, $password);
+    if ($result === "login successfuly") {
+
         echo "login successfully";
-        header("Location: ../Dashboard/dashboard.php");
+        header("Location: ../../public/index.php");
+        exit;
     } else {
         echo "Login failed";
         die();
     }
 }
-
 ?>
 
 
@@ -93,13 +94,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <button
                                 type="submit"
                                 class="btn bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-800 hover:border-indigo-800 active:bg-indigo-800 active:border-indigo-800 focus:outline-none focus:ring-4 focus:ring-indigo-300">
-                                Login   
+                                Login
                             </button>
                         </div>
 
                         <div class="flex justify-between mt-4">
                             <div class="mb-2">
-                                <a href="sign-up.html" class="text-indigo-600 hover:text-indigo-600">Create An Account</a>
+                                <a href="signup.php" class="text-indigo-600 hover:text-indigo-600">Create An Account</a>
                             </div>
                             <div>
                                 <a href="forget-password.html" class="text-indigo-600 hover:text-indigo-600">Forgot your password?</a>
