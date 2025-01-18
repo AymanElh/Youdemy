@@ -9,7 +9,7 @@ use App\Classes\Session;
 
 class Auth
 {
-    public function singup(array $data) : string|bool
+    public function singup(array $data): string|bool
     {
         $fullName = Validation::sanitizeInput($data['fullName'] ?? '');
         $email = Validation::sanitizeInput($data['email'] ?? '');
@@ -35,9 +35,9 @@ class Auth
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-        if($role === 'student') {
-                $student = new Student($fullName, $username, $email, $hashedPassword, 'student');
-                if($student->createUser()) {
+        if ($role === 'student') {
+            $student = new Student($fullName, $username, $email, $hashedPassword, 'student');
+            if ($student->createUser()) {
                 return "singup success";
             }
         }
@@ -45,15 +45,16 @@ class Auth
         return false;
     }
 
-    public function login(string $email, string $password) : bool|string
+    public function login(string $email, string $password): bool|string
     {
         $userData = User::getUser($email);
 
-        if(!$userData) {
+        if (!$userData) {
             return "the user doesn't exist";
         }
 
-        if(password_verify($password, $userData[0]['passwordHashed'])) {
+        if (password_verify($password, $userData[0]['passwordHashed'])) {
+            Session::start();
             Session::set('user', $userData);
             return "login successfuly";
         }

@@ -8,8 +8,8 @@ use App\Classes\BaseModel;
 
 $baseModel = new BaseModel();
 
-if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
-    
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
+
     $data = [
         "fullName" => $_POST['fullName'],
         "username" => $_POST['username'],
@@ -30,9 +30,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
 
     $authentication = new Auth();
     $result = $authentication->singup($data);
-    if(!$result) {
+    if (!$result) {
         throw new \Exception("invalide singup");
-    } else if($result === "signup success") {
+    } else if ($result === "signup success") {
         echo "user inserted successfuly";
         header("Location: ../../public/index.php");
         exit;
@@ -152,7 +152,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                         <div class="md:flex md:justify-between mt-4">
                             <div class="mb-2 mb-md-0">
                                 Already member?
-                                <a href="sign-in.html" class="text-indigo-600 hover:text-indigo-600">Login</a>
+                                <a href="login.php" class="text-indigo-600 hover:text-indigo-600">Login</a>
                             </div>
                             <div>
                                 <a href="forget-password.html" class="text-indigo-600 hover:text-indigo-600">Forgot your password?</a>
