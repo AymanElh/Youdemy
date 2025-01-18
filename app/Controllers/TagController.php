@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Classes\Tag;
 use App\Helpers\Validation;
 
-class TagContr
+class TagController
 {
     private $tag;
 
@@ -14,52 +14,61 @@ class TagContr
         $this->tag = new Tag();
     }
 
-    public function addTag(): string|bool
+    public function addTag(array $data): string
     {
 
-        if (isset($_POST['add-tag']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            $name = Validation::sanitizeInput($_POST['tag-name']);
+        $name = Validation::sanitizeInput($data['name'] ?? '');
 
-            if (strlen($name) < 3) {
-                return "tag name should has more than 3 chars";
-            }
-
-            $this->tag->createTag($name);
-            header("Location: ../views/Dashboard/tags.php");
-            exit;
+        if (empty($name)) {
+            return "Tag name cannot be empty";
         }
-        return true;
-    }
 
-    public function updateTag(): string|bool
-    {
-
-        if (isset($_POST['update-tag']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = Validation::sanitizeInput($_POST['name']);
-
-            $tag_id = $_POST['tag_id'];
-
-            if (strlen($name) < 2) {
-                return "tag name sould has more than 2 chars";
-            }
-
-            $this->tag->updateTag($tag_id, $name);
-            header("Location: ../views/Dashboard/tags.php");
-            exit;
+        if (strlen($name) < 3) {
+            return "tag name should has more than 3 chars";
         }
 
 
-        return true;
+        try {
+            $tagId = $this->tag->createTag($name);
+            return $tagId > 0 ? "Tag created successfuly" : "Error creating tag";
+        } catch (\Exception $e) {
+            error_log("Error " . $e->getMessage());
+        }
     }
 
-    public function deleteTag()
+    public function updateTag(int $id, array $data): string
     {
-        if (isset($_POST['delete-tag']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $tag_id = (int)$_POST['tag_id'];
+        $name = Validation::sanitizeInput($data['name'] ?? '');
 
-            $this->tag->deleteTag($tag_id);
-            header("Location: ../views/Dashbaord/tags.php");
+        if (empty($name)) {
+            return "Tag name cannot be emtpy";
+        }
+
+        if ($id <= 0) {
+            return "Invalid cateogry id";
+        }
+
+        try {
+            $this->tag->updateTag($id, $name);
+            return "Tag updated";
+        } catch (\Exception $e) {
+            error_log("Error updating tag exception : " . $e->getMessage());
+        }
+    }
+
+    public function deleteTag(int $id)
+    {
+        if($id <= 0) {
+            return "invalid tag id";
+        }
+
+        try {
+            $this->tag->deleteTag($id);
+            return "tag deleted successfuly";
+        }
+        catch(\Exception $e) {
+            error_log("Error deleting tag exception : " . $e->getMessage());
         }
     }
 

@@ -9,16 +9,16 @@ use App\Classes\BaseModel;
 class Tag
 {
     private static $nbrOfTags = 0;
-    private static $table;
+    private static $table = 'tags';
 
-    function __construct() {
-        $this->table = 'tags';
-    }
+    // function __construct() {
+    //     $this->table = 'tags';
+    // }
 
-    public function createTag(string $name) : void
+    public function createTag(string $name) : int
     {
-        BaseModel::insertRecord(self::$table, ['name' => $name]);
         self::$nbrOfTags++;
+        return BaseModel::insertRecord(self::$table, ['name' => $name]);
     }
 
     public function deleteTag(int $id) : void
