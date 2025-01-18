@@ -7,14 +7,14 @@ use App\Config\Database;
 
 class Enroll
 {
-    private string $table = 'enollments';
+    private string $table = 'enrollments';
 
     public function EnrollStudent(int $studentId, int $couseId) : bool
     {
 
         try {
             $data = [
-                'studentId' => $studentId,
+                'userId' => $studentId,
                 'courseId' => $couseId
             ];
 
@@ -29,10 +29,10 @@ class Enroll
     public function getErollStudents(int $courseId) : array
     {
         try {
-            $query = "SELECT * FROM users WHERE id IN (SELECT studentId FROM enrollments WHERE courseId = ?)";
+            $query = "SELECT * FROM users WHERE id IN (SELECT userId FROM enrollments WHERE courseId = ?)";
 
             $stmt = (Database::connect())->prepare($query);
-            if($stmt->execute[$courseId]) {
+            if($stmt->execute([$courseId])) {
                 $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
             }
 

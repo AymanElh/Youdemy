@@ -1,3 +1,21 @@
+<?php
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
+define('BASE_URL', "http://localhost/Brief-11%20Youdemy");
+
+use App\Classes\Session;
+
+Session::start();
+
+if (Session::exists('user')) {
+   $role = Session::get('user')[0]['role'];
+} else {
+   header("Location: ../../public/index.php");
+}
+?>
+
+
 <!-- start navbar -->
 <nav class="navbar-vertical navbar">
    <div id="myScrollableElement" class="h-screen" data-simplebar>
@@ -51,90 +69,92 @@
          </li>
 
          <!-- Categories -->
-         <li class="nav-item" x-data="{ isOpen: false }">
-            <a
-               class="nav-link"
-               href="#!"
-               @click.prevent="isOpen = !isOpen"
-               :aria-expanded="isOpen">
-               <i data-feather="lock" class="w-4 h-4 mr-2"></i>
-               Categories
-               <span x-show="!isOpen" class="ml-auto">+</span>
-               <span x-show="isOpen" class="ml-auto">-</span>
-            </a>
-            <div
-               x-show="isOpen"
-               x-collapse
-               class="mt-2"
-               id="navAuthentication"
-               x-cloak>
-               <ul class="nav flex-col">
-                  <li class="nav-item">
-                     <a class="nav-link" href="../Dashboard/pages/categories.php">View All Categories</a>
-                  </li>
-               </ul>
-            </div>
-         </li>
+         <?php if ($role === 'admin') : ?>
+            <li class="nav-item" x-data="{ isOpen: false }">
+               <a
+                  class="nav-link"
+                  href="#!"
+                  @click.prevent="isOpen = !isOpen"
+                  :aria-expanded="isOpen">
+                  <i data-feather="lock" class="w-4 h-4 mr-2"></i>
+                  Categories
+                  <span x-show="!isOpen" class="ml-auto">+</span>
+                  <span x-show="isOpen" class="ml-auto">-</span>
+               </a>
+               <div
+                  x-show="isOpen"
+                  x-collapse
+                  class="mt-2"
+                  id="navAuthentication"
+                  x-cloak>
+                  <ul class="nav flex-col">
+                     <li class="nav-item">
+                        <a class="nav-link" href="../Dashboard/pages/categories.php">View All Categories</a>
+                     </li>
+                  </ul>
+               </div>
+            </li>
 
-         <!-- Tags -->
-         <li class="nav-item" x-data="{ isOpen: false }">
-            <a
-               class="nav-link"
-               href="#!"
-               @click.prevent="isOpen = !isOpen"
-               :aria-expanded="isOpen">
-               <i data-feather="lock" class="w-4 h-4 mr-2"></i>
-               Tags
-               <span x-show="!isOpen" class="ml-auto">+</span>
-               <span x-show="isOpen" class="ml-auto">-</span>
-            </a>
-            <div
-               x-show="isOpen"
-               x-collapse
-               class="mt-2"
-               id="navAuthentication"
-               x-cloak>
-               <ul class="nav flex-col">
-                  <li class="nav-item">
-                     <a class="nav-link" href="../Dashboard/pages/tags.php">View All Tags</a>
-                  </li>
-               </ul>
-            </div>
-         </li>
+            <!-- Tags -->
+            <li class="nav-item" x-data="{ isOpen: false }">
+               <a
+                  class="nav-link"
+                  href="#!"
+                  @click.prevent="isOpen = !isOpen"
+                  :aria-expanded="isOpen">
+                  <i data-feather="lock" class="w-4 h-4 mr-2"></i>
+                  Tags
+                  <span x-show="!isOpen" class="ml-auto">+</span>
+                  <span x-show="isOpen" class="ml-auto">-</span>
+               </a>
+               <div
+                  x-show="isOpen"
+                  x-collapse
+                  class="mt-2"
+                  id="navAuthentication"
+                  x-cloak>
+                  <ul class="nav flex-col">
+                     <li class="nav-item">
+                        <a class="nav-link" href="../Dashboard/pages/tags.php">View All Tags</a>
+                     </li>
+                  </ul>
+               </div>
+            </li>
 
-         <!-- Users Managments -->
-         <li class="nav-item">
-            <div class="navbar-heading">Users Managments</div>
-         </li>
+            <!-- Users Managments -->
+            <li class="nav-item">
+               <div class="navbar-heading">Users Managments</div>
+            </li>
 
-         <!-- Teachers -->
-         <li class="nav-item" x-data="{ isOpen: false }">
-            <a
-               class="nav-link"
-               href="#!"
-               @click.prevent="isOpen = !isOpen"
-               :aria-expanded="isOpen">
-               <i data-feather="package" class="w-4 h-4 mr-2"></i>
-               Teachers
-               <span x-show="!isOpen" class="ml-auto">+</span>
-               <span x-show="isOpen" class="ml-auto">-</span>
-            </a>
-            <div
-               x-show="isOpen"
-               x-collapse
-               class="mt-2"
-               id="navComponents"
-               x-cloak>
-               <ul class="nav flex-col">
-                  <li class="nav-item">
-                     <a class="nav-link" href="../Dashboard/pages/teachers.php">View All Teacher</a>
-                  </li>
+            <!-- Teachers -->
+            <li class="nav-item" x-data="{ isOpen: false }">
+               <a
+                  class="nav-link"
+                  href="#!"
+                  @click.prevent="isOpen = !isOpen"
+                  :aria-expanded="isOpen">
+                  <i data-feather="package" class="w-4 h-4 mr-2"></i>
+                  Teachers
+                  <span x-show="!isOpen" class="ml-auto">+</span>
+                  <span x-show="isOpen" class="ml-auto">-</span>
+               </a>
+               <div
+                  x-show="isOpen"
+                  x-collapse
+                  class="mt-2"
+                  id="navComponents"
+                  x-cloak>
+                  <ul class="nav flex-col">
+                     <li class="nav-item">
+                        <a class="nav-link" href="../Dashboard/pages/teachers.php">View All Teacher</a>
+                     </li>
 
-               </ul>
-            </div>
-         </li>
+                  </ul>
+               </div>
+            </li>
 
-   
+         <?php endif; ?>
+
       </ul>
    </div>
 </nav>

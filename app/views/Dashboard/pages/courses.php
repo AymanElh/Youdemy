@@ -12,10 +12,10 @@ use App\Controllers\CourseController;
 
 Session::start();
 
-if(!Session::exists('user')) {
+if (!Session::exists('user')) {
     header("Location: ../../../public/index.php");
     exit;
-} 
+}
 
 $role = Session::get('user')[0]['role'];
 $userId = Session::get('user')[0]['id'];
@@ -35,9 +35,20 @@ if ($role === 'admin') {
     $courses = $courseContr->getTeacherCourses($userId);
 }
 
-if (isset($_POST['delete-course']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    $courseContr->deleteCourse($_POST['course-id']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['delete-course'])) {
+        $courseContr->deleteCourse($_POST['course-id']);
+    }
+
+    if(isset($_POST['accept-course'])) {
+        $courseId = $_POST['course_id'];
+        if($courseContr->acceptCourse($courseId) === "Course Accepted") {
+            header("Location: courses.php");
+        }
+    }
 }
+
+
 
 ?>
 
@@ -155,7 +166,7 @@ if (isset($_POST['delete-course']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
                                                     <?php if ($course['status'] === 'draft' && Session::get('user')[0]['role'] === 'admin') : ?>
                                                         <form action="" method="POST">
                                                             <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
-                                                            <button type="submit" class="bg-yellow-100 text-yellow-800 text-sm font-medium px-2 py-1 rounded" name="accept-course">Accept Course</button>
+                                                            <button type="submit" onclick="if(confirm('Are you sure you want accept the course?')) this.form.submit()" class="bg-yellow-100 text-yellow-800 text-sm font-medium px-2 py-1 rounded" name="accept-course">Accept Course</button>
                                                         </form>
                                                     <?php else : ?>
                                                         <span class="bg-green-100 text-green-800 text-sm font-medium px-2 py-1 rounded" name="accept-course"><?= htmlspecialchars($course['status']) ?></span>

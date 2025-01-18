@@ -26,15 +26,15 @@ class CourseController
             $courseType = $_POST['courseType'] ?? '';
             $teacherId = Session::get('user')[0]['id'];
 
-            if($courseType === 'video') {
+            if ($courseType === 'video') {
                 $content = Validation::sanitizeInput($_POST['video-content'] ?? '');
-            } else if($courseType === 'document') {
+            } else if ($courseType === 'document') {
                 $content = Validation::sanitizeInput($_POST['doc-content'] ?? '');
-            }else {
+            } else {
                 throw new Exception("Content Invalid");
             }
 
-            $this->course = new Course($title, $description, $content, $categoryId, $tags, $teacherId, '');
+            $this->course = new Course($title, $description, $courseType, $content, $categoryId, $tags, $teacherId, '');
 
             if ($courseType === 'document') {
                 $courseCreator = new DocumentCourse();
@@ -56,19 +56,27 @@ class CourseController
     public function updateCourse(int $courseId): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update-course'])) {
-            
+
 
             $title = Validation::sanitizeInput($_POST['title'] ?? '');
             $description = Validation::sanitizeInput($_POST['description'] ?? '');
-            $content = Validation::sanitizeInput($_POST['content'] ?? '');
+            $type = Validation::sanitizeInput($_POST['courseType'] ?? '');
             $categoryId = (int)($_POST['categoryId'] ?? 0);
             $tags = $_POST['tags'] ?? [];
             $teacherId = Session::get('user')[0]['id'];
 
 
+            if ($type === 'video') {
+                $content = Validation::sanitizeInput($_POST['video'] ?? '');
+            } else if ($type === 'document') {
+                $content = Validation::sanitizeInput($_POST['document'] ?? '');
+            } else { 
+                throw new \Exception("error type");
+            }
+
             $this->course = Course::getCourseById($courseId);
 
-            $this->course = new Course($title, $description, $content, $categoryId, $tags, $teacherId, '', $courseId);
+            $this->course = new Course($title, $description, $type, $content, $categoryId, $tags, $teacherId, '', $courseId);
             echo "<pre>";
             var_dump($this->course);
             echo "</pre>";
@@ -133,5 +141,13 @@ class CourseController
         //     throw new \Exception("Failed to fetch courses for the teacher.");
         // }
         return $courses;
+    }
+
+    public function acceptCourse(int $courseid) : string
+    {
+        if(!Course::acceptCourse($courseid)) {
+            return "Course not accepted";
+        }
+        return "Course Accepted";
     }
 }

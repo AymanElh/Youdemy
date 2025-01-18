@@ -10,19 +10,20 @@ class Course
     private ?int $id = null;
     private string $title;
     private string $description;
+    private string $type;
     private string $content;
     private int $categoryId;
     private string $creationDate;
     private int $teacherId;
     private array $tags = [];
 
-    public function __construct(string $title, string $description, string $content, string $category, array $tags, int $teacherId, string $date = '', int $id = null)
+    public function __construct(string $title, string $description, string $type, string $content, string $category, array $tags, int $teacherId, string $date = '', int $id = null)
     {
         $this->title = $title;
         $this->description = $description;
+        $this->type = $type;
         $this->content = $content;
         $this->categoryId = $category;
-        // $this->teacher = $teacher;
         $this->tags = $tags;
         $this->creationDate = $date;
         $this->teacherId = $teacherId;
@@ -38,6 +39,11 @@ class Course
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    public function getType() : string 
+    {
+        return $this->type;
     }
 
     public function getContent(): string
@@ -147,7 +153,7 @@ class Course
                 $tagIds[] = $tag['tagId'];
             }
 
-            return new Course($courseData['title'], $courseData['description'], $courseData['content'], $courseData['categoryId'], $tagIds, $courseData['teacherId'], $courseData['creationDate'], $courseData['id']);
+            return new Course($courseData['title'], $courseData['description'], $courseData['type'], $courseData['content'], $courseData['categoryId'], $tagIds, $courseData['teacherId'], $courseData['creationDate'], $courseData['id']);
         }
 
         return null;
@@ -166,7 +172,7 @@ class Course
 
     public static function getLimitCourses(int $limit, int $offset): array|bool
     {
-        $query = "SELECT * FROM courses LIMIT :limit OFFSET :offset;";
+        $query = "SELECT * FROM courses WHERE status = 'published' LIMIT :limit OFFSET :offset;";
         $stmt = (Database::connect())->prepare($query);
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
@@ -195,5 +201,10 @@ class Course
             error_log("Error fetching teacher courses: " . $e->getMessage());
             return false;
         }
+    }
+
+    public static function acceptCourse(int $id) 
+    {
+        return BaseModel::updateRecord('courses', ['status' => 'published'], $id);
     }
 }

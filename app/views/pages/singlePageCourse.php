@@ -7,8 +7,14 @@ use App\Classes\Category;
 use App\Classes\Tag;
 use App\Classes\Course;
 use App\Classes\User;
+use App\Classes\Session;
+use App\Classes\Enroll;
+use App\Controllers\EnrollController;
+
+Session::start();
 
 new BaseModel;
+
 
 $category = new Category;
 $tagClass = new Tag;
@@ -19,6 +25,19 @@ if (isset($_GET['id'])) {
     $course = Course::getCourseById($courseId);
 }
 
+$isEnrolled = false;
+
+if (Session::exists('user')) {
+    $userId = Session::get('user')[0]['id'];
+
+    $enroll = new Enroll();
+    $enrolledStudents = $enroll->getErollStudents($courseId);
+
+    $isEnrolled = in_array($userId, array_column($enrolledStudents, 'id'));
+}
+
+$enrollContr = (new EnrollController)->enrollCourse();
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +46,7 @@ if (isset($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete PHP OOP Course - LearnHub</title>
+    <title><?= $course->getTitle() ?> - Youdemy</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -73,9 +92,19 @@ if (isset($_GET['id'])) {
                 <div class="bg-white rounded-xl shadow-xl p-6 text-gray-900">
                     <img src="../../public/assets/img/mohammad-rahmani-8qEB0fTe9Vw-unsplash.jpg" alt="Course preview" class="w-full rounded-lg mb-6 object-cover" style="max-height: 200px;">
                     <div class="text-3xl font-bold mb-4">FREE</div>
-                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mb-4 hover:bg-blue-700 transition">
-                        Enroll Now
-                    </button>
+                    <?php if ($isEnrolled): ?>
+                        <button class="w-full bg-gray-400 text-white py-3 rounded-lg font-semibold mb-4 cursor-not-allowed" disabled>
+                            Enrolled
+                        </button>
+                    <?php else : ?>
+                        <form action="" method="post">
+                            <input type="hidden" name="courseid" value="<?= $courseId ?>">
+                            <input type="hidden" name="userid" value="<?= $userId ?>">
+                            <button type="submit" name="enroll-course" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mb-4 hover:bg-blue-700 transition">
+                                Enroll Now
+                            </button>
+                        </form>
+                    <?php endif; ?>
                     <div class="space-y-4 text-sm">
                         <div class="flex items-center">
                             <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -158,40 +187,46 @@ if (isset($_GET['id'])) {
                 </div>
 
                 <!-- Course Content -->
-                <div class="bg-white rounded-xl shadow p-6">
-                    <h2 class="text-2xl font-bold mb-6">Course Content</h2>
-                    <!-- Section 1 -->
-                    <div class="border rounded-lg mb-4">
-                        <button class="flex items-center justify-between w-full p-4 text-left">
-                            <span class="font-semibold">1. Introduction to OOP</span>
-                            <span class="text-gray-500">3 lectures • 45min</span>
-                        </button>
-                        <div class="border-t p-4 bg-gray-50">
-                            <ul class="space-y-4">
-                                <li class="flex items-center justify-between">
-                                    <div class="flex items-center">
-                                        <svg class="w-5 h-5 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        <span>What is OOP?</span>
-                                    </div>
-                                    <span class="text-gray-500">15:00</span>
-                                </li>
-                                <li class="flex items-center justify-between">
-                                    <div class="flex items-center">
-                                        <svg class="w-5 h-5 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        <span>Classes and Objects</span>
-                                    </div>
-                                    <span class="text-gray-500">20:00</span>
-                                </li>
-                            </ul>
+                <?php if ($isEnrolled) : ?>
+                    <div class="bg-white rounded-xl shadow p-6">
+                        <h2 class="text-2xl font-bold mb-6">Course Content</h2>
+                        <!-- Section 1 -->
+                        <div class="border rounded-lg mb-4">
+                            <button class="flex items-center justify-between w-full p-4 text-left">
+                                <span class="font-semibold">1. Introduction to OOP</span>
+                                <span class="text-gray-500">3 lectures • 45min</span>
+                            </button>
+                            <?php if($course->getType() === 'video') : 
+                                var_dump($course->getContent());?>
+                                <iframe width="775" height="315" src="https://www.youtube.com/embed/zZ6vybT1HQs?si=O7mMXZxORGlADq4i" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    
+                            <?php endif; ?>
+                            <div class="border-t p-4 bg-gray-50">
+                                <ul class="space-y-4">
+                                    <li class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <svg class="w-5 h-5 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <span>What is OOP?</span>
+                                        </div>
+                                        <span class="text-gray-500">15:00</span>
+                                    </li>
+                                    <li class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <svg class="w-5 h-5 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <span>Classes and Objects</span>
+                                        </div>
+                                        <span class="text-gray-500">20:00</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-
+                    <?php endif; ?>
                     <!-- Section 2 -->
                     <div class="border rounded-lg">
                         <button class="flex items-center justify-between w-full p-4 text-left">
@@ -199,7 +234,7 @@ if (isset($_GET['id'])) {
                             <span class="text-gray-500">4 lectures • 60min</span>
                         </button>
                     </div>
-                </div>
+                    </div>
             </div>
         </div>
     </div>

@@ -1,9 +1,19 @@
 
 <?php 
+
+define('BASE_URL', "http://localhost/Brief-11%20Youdemy");
+
 require_once __DIR__ . '/../../../vendor/autoload.php';
 use App\Classes\Session;
 
 Session::start();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+    Session::destroy();
+    header("Location: /app/public/index.php");
+    exit;
+}
+
 ?>
 
 <!-- Navigation -->
@@ -21,14 +31,14 @@ Session::start();
                             <a href="#" class="text-gray-600 hover:text-blue-600">My Courses</a>
 
                         <?php elseif (Session::get('user')[0]['role'] === 'admin' || Session::get('user')[0]['role'] === 'teacher') : ?>
-                            <a href="../views/Dashboard/dashboard.php" class="text-gray-600 hover:text-blue-600">Dashboard</a>
+                            <a href="<?= BASE_URL ?>/app/views/dashboard/dashboard.php" class="text-gray-600 hover:text-blue-600">Dashboard</a>
 
                         <?php endif; ?>
                         <form action="" method="POST">
                             <button name="logout" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Logout</button>
                         </form>
                     <?php else : ?>
-                        <a href="../views/pages/login.php" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Login</a>
+                        <a href="<?= BASE_URL ?>/app/views/pages/login.php" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Login</a>
                     <?php endif; ?>
                 </div>
             </div>

@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content="Sign Up - TailwindCSS HTML Admin Template Free - Dash UI" />
-    <title>Sign Up - TailwindCSS HTML Admin Template Free - Dash UI</title>
+    <title>Youdemy - Signup</title>
     <link rel="stylesheet" href="../../public/assets/css/theme.css" />
 </head>
 

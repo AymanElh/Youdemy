@@ -7,12 +7,6 @@ use App\Controllers\Auth\Auth;
 
 Session::start();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
-    Session::destroy();
-    header("Location: index.php");
-    exit;
-}
-
 
 // echo Session::get('user')['role'];
 // die;
@@ -25,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn Hub - Online Courses</title>
+    <title>Youdemy - Online Courses</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
