@@ -1,3 +1,44 @@
+<?php
+
+require_once __DIR__ . '/../../../../vendor/autoload.php';
+// require_once __DIR__ . '/../../../config/error_config.php';
+
+use App\Classes\BaseModel;
+use App\Controllers\TagController;
+
+$basemodel = new BaseModel;
+$tag = new TagController;
+
+$tags = $tag->getAllTags();
+// var_dump($tags);
+
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? '';
+
+    switch ($action) {
+        case 'add' :
+            $result = $tag->addTag(['name' => $_POST['tag-name']]);
+            break;
+
+        case 'edit':
+            $result = $tag->updateTag($_POST['tag-id'], ['name' => $_POST['tag-name']] ?? '');
+            break;
+        
+        case 'delete' : 
+            $result = $tag->deleteTag($_POST['tag-id']);
+            break;
+
+        default :
+            $result = 'Invalid action';
+    }
+
+    header("Location: tags.php?result=" . urlencode($result));
+    exit;
+}
+
+
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -12,11 +53,35 @@
     <link rel="stylesheet" href="../../../public/assets/css/styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <title>Tags - Youdemy</title>
+    <style>
+        /* Custom CSS for modal positioning */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: white;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 24rem;
+            width: 100%;
+            margin: 1.25rem;
+        }
+    </style>
 </head>
 
 <body>
     <main>
-        <!-- Start the project -->
         <div id="app-layout" class="overflow-x-hidden flex">
             <?php include '../../partials/navbar-vertical.php'; ?>
             <div id="app-layout-content" class="min-h-screen w-full min-w-[100vw] md:min-w-0 ml-[15.625rem] [transition:margin_0.25s_ease-out]">
@@ -28,18 +93,16 @@
                     <nav class="text-white text-sm">
                         <a href="../dashboard.php" class="hover:underline">Dashboard</a> / Tags
                     </nav>
-                    <a href="#" class="btn bg-white text-gray-800 border-gray-600 hover:bg-gray-100 hover:text-gray-800 hover:border-gray-200 active:bg-gray-100 active:text-gray-800 active:border-gray-200 focus:outline-none focus:ring-4 focus:ring-indigo-300">Create New Tag</a>
+                    <button onclick="openCreateTagModal()" class="btn bg-white text-gray-800 border-gray-600 hover:bg-gray-100 hover:text-gray-800 hover:border-gray-200 active:bg-gray-100 active:text-gray-800 active:border-gray-200 focus:outline-none focus:ring-4 focus:ring-indigo-300">Create New Tag</button>
                 </div>
 
-                <!-- Categories Table -->
+                <!-- Tags Table -->
                 <div class="mx-6 mb-6">
                     <div class="card shadow">
-                        <!-- Table Heading -->
                         <div class="border-b border-gray-300 px-5 py-4">
                             <h4>Tags List</h4>
                         </div>
 
-                        <!-- Table -->
                         <div class="relative overflow-x-auto">
                             <table class="text-left w-full whitespace-nowrap border-collapse">
                                 <thead>
@@ -51,22 +114,19 @@
                                 </thead>
                                 <tbody class="divide-y">
                                     <!-- Example Row -->
-                                    <tr>
-                                        <td class="px-6 py-3">1</td>
-                                        <td class="px-6 py-3">PHP</td>
-                                        <td class="px-6 py-3">
-                                            <button class="btn btn-sm bg-indigo-500 text-white px-3 py-1 rounded">Edit</button>
-                                            <button class="btn btn-sm bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-6 py-3">2</td>
-                                        <td class="px-6 py-3">JavaScript</td>
-                                        <td class="px-6 py-3">
-                                            <button class="btn btn-sm bg-indigo-500 text-white px-3 py-1 rounded">Edit</button>
-                                            <button class="btn btn-sm bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    $count = 1;
+                                    foreach ($tags as $tag) :
+                                    ?>
+                                        <tr>
+                                            <td class="px-6 py-3"><?= $count++ ?></td>
+                                            <td class="px-6 py-3"><?= $tag['name'] ?></td>
+                                            <td class="px-6 py-3">
+                                                <button onclick="openEditTagModal(<?= $tag['id'] ?>, '<?= $tag['name'] ?>')" class="btn btn-sm bg-indigo-500 text-white px-3 py-1 rounded">Edit</button>
+                                                <button onclick="openDeleteTagModal(<?= $tag['id'] ?>)" class="btn btn-sm bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -74,8 +134,12 @@
                 </div>
             </div>
         </div>
-        <!-- End of project -->
+
+        <?php include("../../partials/modals.php"); ?>
     </main>
+
+
+    <script src="../../../public/assets/js/main.js"></script>
     <script src="../../../public/assets/js/index.js"></script>
 </body>
 

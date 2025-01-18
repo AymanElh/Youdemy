@@ -56,6 +56,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="htttps://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>Categories - Youdemy</title>
+        <style>
+        /* Custom CSS for modal positioning */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: white;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 24rem;
+            width: 100%;
+            margin: 1.25rem;
+        }
+    </style>
 </head>
 
 <body>

@@ -7,7 +7,7 @@ use App\Classes\DocumentCourse;
 use App\Classes\VideoCourseCreator;
 use App\Helpers\Validation;
 
-class CourseContr
+class CourseController
 {
     private Course $course;
     public function createCourse(): void
@@ -77,5 +77,15 @@ class CourseContr
             header("Location: ../views/dashboard/courses.php");
         }
         exit;
+    }
+
+    public function getAllCourses() : array
+    {
+        return Course::getAllCourses();
+    }
+
+    public function getCourseTags(int $courseId) : array|bool
+    {
+        return Course::getCourseTags($courseId);
     }
 }

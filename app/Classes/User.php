@@ -134,5 +134,17 @@ abstract class User
         }
     }
 
+    public static function getUserById(int $id) : ?array
+    {
+        try {
+            $where = "id = ?";
+            return BaseModel::selectRecords('users', '*', $where, [$id]) ?? null;
+        }
+        catch(\Exception $e) {
+            error_log("error gettting the user" . $e->getMessage());
+            return null;
+        }
+    }
+
     
 }

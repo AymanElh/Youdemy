@@ -36,6 +36,7 @@ CREATE TABLE courses (
     creationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updateDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     isComplete TINYINT(1) DEFAULT 0,
+    status ENUM('draft', 'published') DEFAULT 'draft',
     CONSTRAINT fk_course_teacher FOREIGN KEY (teacherId) REFERENCES users(id),
     CONSTRAINT fk_course_category FOREIGN KEY (categoryId) REFERENCES categories(id)
 );

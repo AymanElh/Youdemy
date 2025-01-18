@@ -138,4 +138,15 @@ class Course
 
         return null;
     }
+
+    public static function getAllCourses() : array
+    {
+        return BaseModel::selectRecords('courses');
+    }
+
+    public static function getCourseTags(int $courseid) : array
+    {
+        $where = "courseId = ?";
+        return BaseModel::selectRecords('coursetags', 'tagId', $where, [$courseid]) ?: [];
+    }
 }
