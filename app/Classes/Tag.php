@@ -46,7 +46,7 @@ class Tag
         return self::$nbrOfTags;
     }
 
-    public function getTagName(int $tag_id) : string
+    public static function getTagName(int $tag_id) : string
     {
         $where = "id = ?";
         $result = BaseModel::selectRecords(self::$table, 'name', $where, [$tag_id]);

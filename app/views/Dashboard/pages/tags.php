@@ -115,7 +115,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <tbody class="divide-y">
                                     <!-- Example Row -->
                                     <?php
-                                    $count = 0;
+                                    $count = 1;
                                     foreach ($tags as $tag) :
                                     ?>
                                         <tr>

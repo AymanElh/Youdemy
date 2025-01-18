@@ -1,8 +1,26 @@
 <?php
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
+// require_once __DIR__ . '/../../../Config/error_config.php';
 
+use App\Classes\Session;
+use App\Classes\BaseModel;
+use App\Classes\Category;
+use App\Classes\Tag;
+use App\Classes\User;
+use App\Controllers\CourseController;
 
+Session::start();
+$baseModel = new BaseModel;
+
+$catgory = new Category;
+
+$courseContr = new CourseController;
+$courses = $courseContr->getAllCourses();
+
+echo "<pre>";
+// var_dump($_SESSION);
+echo "</pre>";
 
 ?>
 
@@ -42,7 +60,6 @@ require_once __DIR__ . '/../../../../vendor/autoload.php';
                     <nav class="text-white text-sm">
                         <a href="../dashboard.php" class="hover:underline">Dashboard</a> / Courses
                     </nav>
-                    <a href="#" class="btn bg-white text-gray-800 border-gray-600 hover:bg-gray-100 hover:text-gray-800 hover:border-gray-200 active:bg-gray-100 active:text-gray-800 active:border-gray-200 focus:outline-none focus:ring-4 focus:ring-indigo-300">Create New Course</a>
                 </div>
 
                 <!-- Courses Table -->
@@ -64,52 +81,46 @@ require_once __DIR__ . '/../../../../vendor/autoload.php';
                                         <th scope="col" class="px-6 py-3">Tags</th>
                                         <th scope="col" class="px-6 py-3">Teacher</th>
                                         <th scope="col" class="px-6 py-3">Created Date</th>
-                                        <th scope="col" class="px-6 py-3">Status</th>
                                         <th scope="col" class="px-6 py-3">Enrolls</th>
+                                        <th scope="col" class="px-6 py-3">Status</th>
                                         <th scope="col" class="px-6 py-3">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y ">
-                                    <tr class="border-gray-300 border-b ">
-                                        <td class="py-3 px-6 text-left">1</td>
-                                        <td class="py-3 px-6 text-left">Introduction to Computer Science</td>
-                                        <td class="py-3 px-6 text-left">Computer Science</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">C</span>
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">Python</span>
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">SQL</span>
-                                        </td>
-                                        <td class="py-3 px-6 text-left">Ayman Elh</td>
-                                        <td class="py-3 px-6 text-left">2024-12-12</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <span class="bg-green-100 text-green-800 text-sm font-medium px-2 py-1 rounded">Published</span>
-                                        </td>
-                                        <td class="py-3 px-6 text-left">20</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <button class="btn btn-sm bg-indigo-500 text-white">Edit</button>
-                                            <button class="btn btn-sm bg-red-500 text-white">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr class="border-gray-300 border-b ">
-                                        <td class="py-3 px-6 text-left">1</td>
-                                        <td class="py-3 px-6 text-left"> to Computer Science</td>
-                                        <td class="py-3 px-6 text-left">aract</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">C</span>
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">Python</span>
-                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded">SQL</span>
-                                        </td>
-                                        <td class="py-3 px-6 text-left">Ayman Elh</td>
-                                        <td class="py-3 px-6 text-left">2024-12-12</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <span class="bg-green-100 text-green-800 text-sm font-medium px-2 py-1 rounded">Published</span>
-                                        </td>
-                                        <td class="py-3 px-6 text-left">20</td>
-                                        <td class="py-3 px-6 text-left">
-                                            <button class="btn btn-sm bg-indigo-500 text-white">Edit</button>
-                                            <button class="btn btn-sm bg-red-500 text-white">Delete</button>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    $count = 1;
+                                    foreach ($courses as $course) :
+                                        $tags = $courseContr->getCourseTags(6);
+
+                                    ?>
+                                        <tr class="border-gray-300 border-b ">
+                                            <td class="py-3 px-6 text-left"><?= $count++ ?></td>
+                                            <td class="py-3 px-6 text-left"><?= $course['title'] ?></td>
+                                            <td class="py-3 px-6 text-left"><?= $catgory->getCategoryName($course['categoryId']) ?></td>
+                                            <td class="py-3 px-6 text-left">
+                                                <?php foreach ($tags as $tag) : ?>
+                                                    <span class="bg-blue-100 text-blue-800 text-sm font-medium px-2 py-1 rounded"><?= Tag::getTagName($tag['tagId']) ?></span>
+                                                <?php endforeach; ?>
+                                            </td>
+                                            <td class="py-3 px-6 text-left"><?= User::getUserById($course['teacherId'])[0]['fullName'] ?></td>
+                                            <td class="py-3 px-6 text-left"><?= $course['creationDate'] ?></td>
+                                            <td class="py-3 px-6 text-left">20</td>
+                                            <td>
+                                                <?php if ($course['status'] === 'draft' && $_SESSION['user']['role'] === 'admin') : ?>
+                                                    <form action="" method="POST">
+                                                        <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
+                                                        <button type="submit" class="bg-green-100 text-green-800 text-sm font-medium px-2 py-1 rounded" name="accept-course">Accept Course</button>
+                                                    </form>
+                                                <?php else : ?>
+                                                    <span class="badge badge-success p-2"><?= htmlspecialchars($course['status']) ?></span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class="py-3 px-6 text-left">
+                                                <button class="btn btn-sm bg-indigo-500 text-white">Read</button>
+                                                <button class="btn btn-sm bg-red-500 text-white">Delete</button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
