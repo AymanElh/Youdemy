@@ -2,26 +2,39 @@
 
 namespace App\Controllers;
 
+require_once __DIR__ . '/../../vendor/autoload.php';
+
 use App\Classes\Course;
 use App\Classes\DocumentCourse;
 use App\Classes\VideoCourseCreator;
+use App\Classes\Session;
 use App\Helpers\Validation;
+use Exception;
+
+Session::start();
 
 class CourseController
 {
     private Course $course;
     public function createCourse(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create-course'])) {
             $title = Validation::sanitizeInput($_POST['title'] ?? '');
             $description = Validation::sanitizeInput($_POST['description'] ?? '');
-            $content = Validation::sanitizeInput($_POST['content'] ?? '');
             $categoryId = (int)($_POST['categoryId'] ?? 0);
-            $tags = $_POST['tags'] ?? [];
+            $tags = isset($_POST['tags']) ? $_POST['tags'] : [];
             $courseType = $_POST['courseType'] ?? '';
-            $teacherId = 1;
+            $teacherId = Session::get('user')[0]['id'];
 
-            $this->course = new Course($title, $description, $content, $categoryId, $tags, '', $teacherId);
+            if($courseType === 'video') {
+                $content = Validation::sanitizeInput($_POST['video-content'] ?? '');
+            } else if($courseType === 'document') {
+                $content = Validation::sanitizeInput($_POST['doc-content'] ?? '');
+            }else {
+                throw new Exception("Content Invalid");
+            }
+
+            $this->course = new Course($title, $description, $content, $categoryId, $tags, $teacherId, '');
 
             if ($courseType === 'document') {
                 $courseCreator = new DocumentCourse();
@@ -34,7 +47,7 @@ class CourseController
             $result = $this->course->create($courseCreator);
 
             if ($result) {
-                header("Location: ../views/dashboard/courses.php");
+                header("Location: ../../dashboard/dashboard.php");
                 exit;
             }
         }
@@ -42,23 +55,26 @@ class CourseController
 
     public function updateCourse(int $courseId): void
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update-course'])) {
+            
+
             $title = Validation::sanitizeInput($_POST['title'] ?? '');
             $description = Validation::sanitizeInput($_POST['description'] ?? '');
             $content = Validation::sanitizeInput($_POST['content'] ?? '');
             $categoryId = (int)($_POST['categoryId'] ?? 0);
             $tags = $_POST['tags'] ?? [];
+            $teacherId = Session::get('user')[0]['id'];
 
 
             $this->course = Course::getCourseById($courseId);
 
-            $this->course = new Course($title, $description, $content, $categoryId, $tags, $courseId);
-
-
+            $this->course = new Course($title, $description, $content, $categoryId, $tags, $teacherId, '', $courseId);
+            echo "<pre>";
+            var_dump($this->course);
+            echo "</pre>";
             $courseUpdated = $this->course->update();
-
             if ($courseUpdated) {
-                header("Location: ../views/dashboard/courses.php");
+                header("Location: ../courses.php");
             }
             exit;
         }
@@ -68,14 +84,18 @@ class CourseController
     {
         if ($courseId > 0) {
             $this->course = Course::getCourseById($courseId);
+            echo "<pre>";
+            var_dump($this->course);
+            echo "</pre>";
+            // die;
 
             if ($this->course->delete()) {
-                header("Location: ../views/dashboard/courses.php");
+                header("Location: ../pages/courses.php");
             } else {
-                header("Location: ../views/dashboard/courses.php");
+                header("Location: ../pages/courses.php");
             }
         } else {
-            header("Location: ../views/dashboard/courses.php");
+            header("Location: ../pages/courses.php");
         }
         exit;
     }
@@ -99,5 +119,19 @@ class CourseController
     {
         $result = Course::getCountCourses();
         return $result ? $result[0]['totalCourses'] : 0;
+    }
+
+    public function getTeacherCourses(int $teacherId): array
+    {
+        if (!Session::exists('user')) {
+            throw new \Exception("Teacher not logged in.");
+        }
+
+        $courses = Course::getTeacherCourses($teacherId);
+
+        // if ($courses === false) {
+        //     throw new \Exception("Failed to fetch courses for the teacher.");
+        // }
+        return $courses;
     }
 }

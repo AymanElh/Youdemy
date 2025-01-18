@@ -13,15 +13,15 @@ class VideoCourseCreator implements CourseManagment
             'description' => $course->getDescription(),
             'type' => 'video',
             'content' => $course->getContent(),
-            'category_id' => $course->getCategoryId(),
-            'teacher_id' => 1
+            'categoryId' => $course->getCategoryId(),
+            'teacherId' => $course->getTeacherId()
         ];
 
         $courseId = BaseModel::insertRecord('courses', $data);
 
         if ($course->getTags()) {
             foreach ($course->getTags() as $tag) {
-                BaseModel::insertRecord('course_tags', ['course_id' => $courseId, 'tag_id' => $tag]);
+                BaseModel::insertRecord('courseTags', ['courseId' => $courseId, 'tagId' => $tag]);
             }
         }
 

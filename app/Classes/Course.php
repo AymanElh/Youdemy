@@ -96,8 +96,8 @@ class Course
                 'title' => $this->getTitle(),
                 'description' => $this->getDescription(),
                 'content' => $this->getContent(),
-                'category_id' => $this->getCategoryId(),
-                'teacher_id' => 1
+                'categoryId' => $this->getCategoryId(),
+                'teacherId' => $this->getTeacherId()
             ];
 
             $result = BaseModel::updateRecord('courses', $data, $this->id);
@@ -106,7 +106,7 @@ class Course
                 BaseModel::deleteRecord('courseTags', $this->id);
                 foreach ($this->getTags() as $tag) {
                     if ($tag) {
-                        BaseModel::insertRecord('courseTags', ['course_id' => $this->id, 'tag_id' => $tag]);
+                        BaseModel::insertRecord('courseTags', ['courseId' => $this->id, 'tagId' => $tag]);
                     }
                 }
             }
@@ -181,5 +181,19 @@ class Course
     public static function getCountCourses(): array
     {
         return BaseModel::selectRecords('courses', 'COUNT(*) AS totalCourses');
+    }
+
+    public static function getTeacherCourses(int $teacherId): array|bool
+    {
+        try {
+            $where = "teacherId = ?";
+
+            $result = BaseModel::selectRecords('courses', '*', $where, [$teacherId]);
+
+            return $result ?: [];
+        } catch (\PDOException $e) {
+            error_log("Error fetching teacher courses: " . $e->getMessage());
+            return false;
+        }
     }
 }

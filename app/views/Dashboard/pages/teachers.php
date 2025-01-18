@@ -9,7 +9,7 @@
     <meta
         name="description"
         content="Youdemy - Online Learning Platform" />
-    <?php include '../partials/head.php' ?>
+    <?php include '../components/head.php' ?>
     <link rel="stylesheet" href="../../node_modules/apexcharts/dist/apexcharts.css" />
     <link rel="stylesheet" href="../../public/assets/css/theme.css" />
     <link rel="stylesheet" href="../../public/assets/css/styles.css" />
@@ -23,10 +23,10 @@
         <!-- start the project -->
         <!-- app layout -->
         <div id="app-layout" class="overflow-x-hidden flex">
-            <?php include '../partials/navbar-vertical.php'; ?>
+            <?php include '../components/navbar-vertical.php'; ?>
             <!-- app layout content -->
             <div id="app-layout-content" class="min-h-screen w-full min-w-[100vw] md:min-w-0 ml-[15.625rem] [transition:margin_0.25s_ease-out]">
-                <?php include '../partials/top-navbar.php'; ?>
+                <?php include '../components/top-navbar.php'; ?>
 
                 <!-- Page Header -->
                 <div class="bg-indigo-600 px-6 pt-6 pb-8 h-20 flex justify-between items-center mb-8">
