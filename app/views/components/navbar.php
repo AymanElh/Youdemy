@@ -20,7 +20,7 @@ Session::start();
                         <?php if (Session::get('user')[0]['role'] === 'student') : ?>
                             <a href="#" class="text-gray-600 hover:text-blue-600">My Courses</a>
 
-                        <?php elseif (Session::get('user')[0]['role'] === 'admin') : ?>
+                        <?php elseif (Session::get('user')[0]['role'] === 'admin' || Session::get('user')[0]['role'] === 'teacher') : ?>
                             <a href="../views/Dashboard/dashboard.php" class="text-gray-600 hover:text-blue-600">Dashboard</a>
 
                         <?php endif; ?>

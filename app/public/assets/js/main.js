@@ -4,14 +4,14 @@ function openCreateModal() {
 }
 
 function closeModal() {
-  document.getElementById("categoryModal").classList.add("hidden");
+  document.getElementById("categoryModal").style.display = 'none';
   document.getElementById("categoryForm").reset();
 }
 
 // Optional: Close modal when clicking outside
 document.addEventListener("click", function (event) {
   const modal = document.getElementById("categoryModal");
-  const modalContent = modal.querySelector(".relative.bg-white");
+  // const modalContent = modal.querySelector(".relative.bg-white");
 
   if (event.target === modal) {
     closeModal();
@@ -130,3 +130,27 @@ function openCreateTagModal() {
     }
   });
   
+
+    // Delete Modal for Tags
+    const deleteCourseModal = document.getElementById("deleteCourseModal");
+  
+    function openDeleteCourseModal(id) {
+      // Set the Course ID in a hidden input field inside the modal
+      document.getElementById("deleteCourseId").value = id;
+    
+      // Show modal
+      deleteCourseModal.style.display = 'flex';
+    }
+    
+    function closeDeleteCourseModal() {
+      // Hide modal
+      deleteCourseModal.style.display = 'none';
+    }
+    
+    // Close delete modal when clicking outside
+    window.addEventListener("click", (event) => {
+      if (event.target === deleteCourseModal) {
+        closeDeleteCourseModal();
+      }
+    });
+    

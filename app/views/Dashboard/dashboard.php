@@ -9,7 +9,7 @@
     <meta
         name="description"
         content="Dash UI - TailwindCSS HTML Admin Template Free and open-source Github, provides developers with everything need to create Web Application & Kick start project" />
-    <?php include '../partials/head.php' ?>
+    <?php include '../components/head.php' ?>
     <link rel="stylesheet" href="../../node_modules/apexcharts/dist/apexcharts.css" />
     <link rel="stylesheet" href="../../public/assets/css/theme.css" />
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
@@ -21,10 +21,10 @@
         <!-- start the project -->
         <!-- app layout -->
         <div id="app-layout" class="overflow-x-hidden flex">
-            <?php include '../partials/navbar-vertical.php'; ?>
+            <?php include '../components/navbar-vertical.php'; ?>
             <!-- app layout content -->
             <div id="app-layout-content" class="min-h-screen w-full min-w-[100vw] md:min-w-0 ml-[15.625rem] [transition:margin_0.25s_ease-out]">
-                <?php include '../partials/top-navbar.php'; ?>
+                <?php include '../components/top-navbar.php'; ?>
 
                 <div class="bg-indigo-600 px-8 pt-10 lg:pt-14 pb-16 flex justify-between items-center mb-3">
                     <!-- title -->
@@ -298,12 +298,13 @@
                         </div>
                     </div>
                 </div>
-                <!-- <?php include "../partials/footer.php"; ?> -->
+                <!-- <?php include "../components/footer.php"; ?> -->
             </div>
         </div>
         <!-- end of project -->
     </main>
-    <?php include "../partials/scripts.php"; ?>
+    <?php include "../components/scripts.php"; ?>
+    <script src="../../public/assets/js/index.js"></script>
 </body>
 
 </html>

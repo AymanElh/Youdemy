@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content="Youdemy - Online Learning Platform" />
-    <?php include '../../partials/head.php'; ?>
+    <?php include '../../components/head.php'; ?>
     <link rel="stylesheet" href="../../../public/assets/css/theme.css" />
     <link rel="stylesheet" href="../../../public/assets/css/styles.css" />
     <script src="htttps://cdn.tailwindcss.com"></script>
@@ -86,9 +86,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <!-- Start the project -->
     <div id="app-layout" class="overflow-x-hidden flex">
-        <?php include '../../partials/navbar-vertical.php'; ?>
+        <?php include '../../components/navbar-vertical.php'; ?>
         <div id="app-layout-content" class="min-h-screen w-full min-w-[100vw] md:min-w-0 ml-[15.625rem] [transition:margin_0.25s_ease-out]">
-            <?php include '../../partials/top-navbar.php'; ?>
+            <?php include '../../components/top-navbar.php'; ?>
 
             <!-- Page Header -->
             <div class="bg-indigo-600 px-6 pt-6 pb-8 h-20 flex justify-between items-center mb-8">
@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <?php include("../../partials/modals.php"); ?>
+    <?php include("../../components/modals.php"); ?>
 
     <!-- End of project -->
     <script src="../../../public/assets/js/main.js"></script>

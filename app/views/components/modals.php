@@ -297,3 +297,51 @@
         </div>
     </div>
 </div>
+
+
+
+<!-- delete Course modal -->
+<div id="deleteCourseModal" class="modal-overlay">
+    <!-- Background Overlay -->
+    <div class="fixed inset-0 bg-black opacity-50"></div>
+
+    <!-- Modal Content -->
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+        <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md">
+            <!-- Modal Header -->
+            <div class="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+                <h3 class="text-lg font-medium text-gray-900">Delete Course</h3>
+                <button onclick="closeDeleteCourseModal()" class="text-gray-400 hover:text-gray-500">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <form id="deleteTagForm" action="" method="POST">
+                <div class="p-6">
+                    <!-- Hidden input for Tag ID -->
+                    <input type="hidden" id="deleteCourseId" name="course-id" />
+
+                    <p class="text-gray-700 text-sm">
+                        Are you sure you want to delete this Course? This action cannot be undone.
+                    </p>
+
+                    <!-- Modal Footer -->
+                    <div class="mt-6 flex justify-end space-x-3">
+                        <button type="button"
+                            onclick="closeDeleteCourseModal()"
+                            class="px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit" name="delete-course"
+                            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300">
+                            Yes, Delete
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
