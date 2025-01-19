@@ -30,6 +30,7 @@ class TeacherController
                 throw new \Exception("User id is invalid");
             }
             Teacher::accept($userId);
+            header("Location: teachers.php");
         }
     }
 

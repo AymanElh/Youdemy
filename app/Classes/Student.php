@@ -54,4 +54,17 @@ class Student extends User
             return [];
         }
     }
+
+    public static function getAllStudents(): array
+    {
+        try {
+            $stmt = (Database::connect())->prepare(" SELECT * FROM users WHERE id NOT IN (SELECT userId FROM teacherRequests) AND role = ?;");
+            if ($stmt->execute(['student'])) {
+                $reuslt = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+                return $reuslt ?: [];
+            }
+        } catch (\Exception $e) {
+            error_log("Error get the students: " . $e->getMessage());
+        }
+    }
 }

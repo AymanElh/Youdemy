@@ -15,147 +15,158 @@ if (Session::exists('user')) {
 }
 ?>
 
+<nav class="navbar-vertical w-64 bg-gray-900 text-gray-100 h-screen fixed left-0 top-0 overflow-y-auto transition-all duration-300">
+   <div class="h-screen" data-simplebar>
+      <!-- Brand Logo -->
+      <div class="px-6 py-8">
+         <a class="flex items-center justify-center" href="../Dashboard/dashboard.php">
+            <img src="/assets/images/brand/logo/logo.svg" alt="Logo" class="h-8" />
+         </a>
+      </div>
 
-<!-- start navbar -->
-<nav class="navbar-vertical navbar">
-   <div id="myScrollableElement" class="h-screen" data-simplebar>
-      <!-- brand logo -->
-      <a class="navbar-brand" href="../Dashboard/dashboard.php">
-         <img src="/assets/images/brand/logo/logo.svg" alt="" />
-      </a>
-
-      <!-- navbar nav -->
-      <ul class="navbar-nav flex-col" id="sideNavbar">
+      <!-- Navigation Menu -->
+      <ul class="px-4 space-y-2">
          <!-- Dashboard -->
-         <li class="nav-item">
-            <a class="nav-link" href="../dashboard.php">
-               <i data-feather="home" class="w-4 h-4 mr-2"></i>
-               Dashboard
+         <li>
+            <a href="../dashboard.php"
+               class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors duration-200">
+               <i class="fas fa-home w-5 h-5"></i>
+               <span class="ml-3">Dashboard</span>
             </a>
          </li>
 
-         <!-- Layouts & Pages Heading -->
-         <li class="nav-item">
-            <div class="navbar-heading">Content Mangment</div>
+         <!-- Content Management Section -->
+         <li class="pt-4">
+            <div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+               Content Management
+            </div>
          </li>
 
          <!-- Courses -->
-         <li class="nav-item" x-data="{ isOpen: false }">
-            <a
-               class="nav-link"
-               href="#!"
-               @click.prevent="isOpen = !isOpen"
-               :aria-expanded="isOpen">
-               <i data-feather="layers" class="w-4 h-4 mr-2"></i>
-               Courses
-               <span x-show="!isOpen" class="ml-auto">+</span>
-               <span x-show="isOpen" class="ml-auto">-</span>
-            </a>
-            <div
-               x-show="isOpen"
-               x-collapse
-               class="mt-2"
-               id="navPages"
-               x-cloak>
-               <ul class="nav flex-col">
-                  <li class="nav-item">
-                     <a class="nav-link" href="../Dashboard/pages/courses.php">View All Courses</a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="#">Add Course</a>
-                  </li>
-               </ul>
+         <li x-data="{ open: false }">
+            <button @click="open = !open"
+               class="flex items-center justify-between w-full px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors duration-200">
+               <div class="flex items-center">
+                  <i class="fas fa-book-open w-5 h-5"></i>
+                  <span class="ml-3">Courses</span>
+               </div>
+               <i class="fas fa-chevron-down w-4 h-4 transition-transform duration-200"
+                  :class="{ 'transform rotate-180': open }"></i>
+            </button>
+            <div x-show="open"
+               x-transition:enter="transition ease-out duration-200"
+               x-transition:enter-start="opacity-0 transform -translate-y-2"
+               x-transition:enter-end="opacity-100 transform translate-y-0"
+               class="pl-10 pr-4 space-y-1 mt-1">
+               <a href="../Dashboard/pages/courses.php"
+                  class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200">
+                  View All Courses
+               </a>
+               <a href="#"
+                  class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200">
+                  Add Course
+               </a>
             </div>
          </li>
 
          <!-- Categories -->
-         <?php if ($role === 'admin') : ?>
-            <li class="nav-item" x-data="{ isOpen: false }">
-               <a
-                  class="nav-link"
-                  href="#!"
-                  @click.prevent="isOpen = !isOpen"
-                  :aria-expanded="isOpen">
-                  <i data-feather="lock" class="w-4 h-4 mr-2"></i>
-                  Categories
-                  <span x-show="!isOpen" class="ml-auto">+</span>
-                  <span x-show="isOpen" class="ml-auto">-</span>
-               </a>
-               <div
-                  x-show="isOpen"
-                  x-collapse
-                  class="mt-2"
-                  id="navAuthentication"
-                  x-cloak>
-                  <ul class="nav flex-col">
-                     <li class="nav-item">
-                        <a class="nav-link" href="../Dashboard/pages/categories.php">View All Categories</a>
-                     </li>
-                  </ul>
+         <li x-data="{ open: false }">
+            <button @click="open = !open"
+               class="flex items-center justify-between w-full px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors duration-200">
+               <div class="flex items-center">
+                  <i class="fas fa-folder w-5 h-5"></i>
+                  <span class="ml-3">Categories</span>
                </div>
-            </li>
-
-            <!-- Tags -->
-            <li class="nav-item" x-data="{ isOpen: false }">
-               <a
-                  class="nav-link"
-                  href="#!"
-                  @click.prevent="isOpen = !isOpen"
-                  :aria-expanded="isOpen">
-                  <i data-feather="lock" class="w-4 h-4 mr-2"></i>
-                  Tags
-                  <span x-show="!isOpen" class="ml-auto">+</span>
-                  <span x-show="isOpen" class="ml-auto">-</span>
+               <i class="fas fa-chevron-down w-4 h-4 transition-transform duration-200"
+                  :class="{ 'transform rotate-180': open }"></i>
+            </button>
+            <div x-show="open"
+               x-transition:enter="transition ease-out duration-200"
+               x-transition:enter-start="opacity-0 transform -translate-y-2"
+               x-transition:enter-end="opacity-100 transform translate-y-0"
+               class="pl-10 pr-4 space-y-1 mt-1">
+               <a href="../Dashboard/pages/categories.php"
+                  class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200">
+                  View All Categories
                </a>
-               <div
-                  x-show="isOpen"
-                  x-collapse
-                  class="mt-2"
-                  id="navAuthentication"
-                  x-cloak>
-                  <ul class="nav flex-col">
-                     <li class="nav-item">
-                        <a class="nav-link" href="../Dashboard/pages/tags.php">View All Tags</a>
-                     </li>
-                  </ul>
+            </div>
+         </li>
+
+         <!-- Tags -->
+         <li x-data="{ open: false }">
+            <button @click="open = !open"
+               class="flex items-center justify-between w-full px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors duration-200">
+               <div class="flex items-center">
+                  <i class="fas fa-tags w-5 h-5"></i>
+                  <span class="ml-3">Tags</span>
                </div>
-            </li>
-
-            <!-- Users Managments -->
-            <li class="nav-item">
-               <div class="navbar-heading">Users Managments</div>
-            </li>
-
-            <!-- Teachers -->
-            <li class="nav-item" x-data="{ isOpen: false }">
-               <a
-                  class="nav-link"
-                  href="#!"
-                  @click.prevent="isOpen = !isOpen"
-                  :aria-expanded="isOpen">
-                  <i data-feather="package" class="w-4 h-4 mr-2"></i>
-                  Teachers
-                  <span x-show="!isOpen" class="ml-auto">+</span>
-                  <span x-show="isOpen" class="ml-auto">-</span>
+               <i class="fas fa-chevron-down w-4 h-4 transition-transform duration-200"
+                  :class="{ 'transform rotate-180': open }"></i>
+            </button>
+            <div x-show="open"
+               x-transition:enter="transition ease-out duration-200"
+               x-transition:enter-start="opacity-0 transform -translate-y-2"
+               x-transition:enter-end="opacity-100 transform translate-y-0"
+               class="pl-10 pr-4 space-y-1 mt-1">
+               <a href="../Dashboard/pages/tags.php"
+                  class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200">
+                  View All Tags
                </a>
-               <div
-                  x-show="isOpen"
-                  x-collapse
-                  class="mt-2"
-                  id="navComponents"
-                  x-cloak>
-                  <ul class="nav flex-col">
-                     <li class="nav-item">
-                        <a class="nav-link" href="../Dashboard/pages/teachers.php">View All Teacher</a>
-                     </li>
+            </div>
+         </li>
 
-                  </ul>
+         <!-- Users Management Section -->
+         <li class="pt-4">
+            <div class="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+               Users Management
+            </div>
+         </li>
+
+         <!-- Teachers -->
+         <li x-data="{ open: false }">
+            <button @click="open = !open"
+               class="flex items-center justify-between w-full px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors duration-200">
+               <div class="flex items-center">
+                  <i class="fas fa-chalkboard-teacher w-5 h-5"></i>
+                  <span class="ml-3">Teachers</span>
                </div>
-            </li>
+               <i class="fas fa-chevron-down w-4 h-4 transition-transform duration-200"
+                  :class="{ 'transform rotate-180': open }"></i>
+            </button>
+            <div x-show="open"
+               x-transition:enter="transition ease-out duration-200"
+               x-transition:enter-start="opacity-0 transform -translate-y-2"
+               x-transition:enter-end="opacity-100 transform translate-y-0"
+               class="pl-10 pr-4 space-y-1 mt-1">
+               <a href="../Dashboard/pages/teachers.php"
+                  class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200">
+                  View All Teachers
+               </a>
+            </div>
+         </li>
 
-         <?php endif; ?>
-
+         <!-- Students -->
+         <li x-data="{ open: false }">
+            <button @click="open = !open"
+               class="flex items-center justify-between w-full px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors duration-200">
+               <div class="flex items-center">
+                  <i class="fas fa-user-graduate w-5 h-5"></i>
+                  <span class="ml-3">Students</span>
+               </div>
+               <i class="fas fa-chevron-down w-4 h-4 transition-transform duration-200"
+                  :class="{ 'transform rotate-180': open }"></i>
+            </button>
+            <div x-show="open"
+               x-transition:enter="transition ease-out duration-200"
+               x-transition:enter-start="opacity-0 transform -translate-y-2"
+               x-transition:enter-end="opacity-100 transform translate-y-0"
+               class="pl-10 pr-4 space-y-1 mt-1">
+               <a href="../pages/students.php"
+                  class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200">
+                  View All Students
+               </a>
+            </div>
+         </li>
       </ul>
    </div>
 </nav>
-<!--end of navbar-->

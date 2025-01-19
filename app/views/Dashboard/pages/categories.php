@@ -57,8 +57,6 @@ Auth::checkAccess(['admin']);
     <?php include '../../components/head.php'; ?>
     <link rel="stylesheet" href="../../../public/assets/css/theme.css" />
     <link rel="stylesheet" href="../../../public/assets/css/styles.css" />
-    <script src="htttps://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>Categories - Youdemy</title>
         <style>
         /* Custom CSS for modal positioning */
@@ -149,6 +147,7 @@ Auth::checkAccess(['admin']);
     <!-- End of project -->
     <script src="../../../public/assets/js/main.js"></script>
     <script src="../../../public/assets/js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 
 </html>

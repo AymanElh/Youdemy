@@ -22,7 +22,6 @@ Auth::checkAccess(['admin', 'teacher']);
     <?php include '../components/head.php' ?>
     <link rel="stylesheet" href="../../node_modules/apexcharts/dist/apexcharts.css" />
     <link rel="stylesheet" href="../../public/assets/css/theme.css" />
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <title>Youdemy </title>
 </head>
 
