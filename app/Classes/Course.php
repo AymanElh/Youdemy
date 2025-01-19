@@ -4,6 +4,7 @@ namespace App\Classes;
 
 use App\Classes\Interfaces\CourseManagment;
 use App\Config\Database;
+use Exception;
 
 class Course
 {
@@ -184,9 +185,14 @@ class Course
         return false;
     }
 
-    public static function getCountCourses(): array
+    public static function getCountCourses(): int
     {
-        return BaseModel::selectRecords('courses', 'COUNT(*) AS totalCourses');
+        $result = BaseModel::selectRecords('courses', 'COUNT(*) AS totalCourses');
+        if(!$result) {
+            throw new Exception("Cannot get count of courses");
+        }
+
+        return $result ? $result[0]['totalCourses'] : 0;
     }
 
     public static function getTeacherCourses(int $teacherId): array|bool
@@ -206,5 +212,15 @@ class Course
     public static function acceptCourse(int $id) 
     {
         return BaseModel::updateRecord('courses', ['status' => 'published'], $id);
+    }
+
+    public static function searchCourses(string $keyword) 
+    {
+        $keyword = "%" . $keyword . "%";
+        $query = "SELECT * FROM courses WHERE title LIKE ? OR description LIKE ? OR content LIKE ?;";
+        $stmt = (Database::connect())->prepare($query);
+        $stmt->execute([$keyword, $keyword, $keyword]);
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result ?: [];
     }
 }

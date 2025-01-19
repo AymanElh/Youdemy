@@ -18,20 +18,31 @@ class TagController
     {
 
 
-        $name = Validation::sanitizeInput($data['name'] ?? '');
+        $tags = Validation::sanitizeInput($data['name'] ?? '');
+        // if (empty($name)) {
+        //     return "Tag name cannot be empty";
+        // }
 
-        if (empty($name)) {
+        // if (strlen($name) < 3) {
+        //     return "tag name should has more than 3 chars";
+        // }
+
+        $tags = explode(', ', $tags);
+        // var_dump($tags); die;
+        if(empty($tags)) {
             return "Tag name cannot be empty";
-        }
-
-        if (strlen($name) < 3) {
-            return "tag name should has more than 3 chars";
         }
 
 
         try {
-            $tagId = $this->tag->createTag($name);
-            return $tagId > 0 ? "Tag created successfuly" : "Error creating tag";
+            // $tagId = $this->tag->createTag($name);
+            foreach($tags as $tag) {
+                $tagId = $this->tag->createTag($tag);
+                if($tagId <= 0) {
+                    return "Error creating tag";
+                }
+            }
+            return "Tag created successfuly";
         } catch (\Exception $e) {
             error_log("Error " . $e->getMessage());
         }

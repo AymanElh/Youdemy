@@ -165,5 +165,18 @@ abstract class User
             error_log("Error updating the record: ". $e->getMessage());
         }
     }
+
+    public static function getCountUser(string $role) : int
+    {
+        if($role === 'student') {
+            $result = BaseModel::selectRecords('users', 'COUNT(*) AS totalStudents', "role = ?", [$role]);
+            return $result ? $result[0]['totalStudents'] : 0;
+        } else if($role === 'teacher') {
+            $result = BaseModel::selectRecords('users', 'COUNT(*) AS totalTeachers', "role = ?", [$role]);
+            return $result ? $result[0]['totalTeachers'] : 0;
+        } else {
+            throw new \Exception("Invalid user role");
+        }
+    }
     
 }

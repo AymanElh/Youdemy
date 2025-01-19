@@ -22,7 +22,6 @@ if (isset($_POST['make-request']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     var_dump("You are requesting...");
     $message = $teacher->makeeRequest();
     var_dump($message);
-    echo "<script>alert($message)</script>";
     header("Location: index.php");
 }
 

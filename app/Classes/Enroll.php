@@ -4,6 +4,7 @@ namespace App\Classes;
 
 use App\Classes\BaseModel;
 use App\Config\Database;
+use Exception;
 
 class Enroll
 {
@@ -41,6 +42,19 @@ class Enroll
         catch(\Exception $e) {
             error_log($e->getMessage());
             return [];
+        }
+    }
+
+    public static function getTotalEnrollments() : int
+    {
+        try {
+            $result = BaseModel::selectRecords('enrollments', 'COUNT(*) AS TotalEnrollments');
+            if(!$result) {
+                throw new Exception("cannot get enrollments");
+            }
+            return $result ? $result[0]['TotalEnrollments'] : 0;
+        } catch(\Exception $e) {
+            error_log("Error getting the total enrollments: " . $e->getMessage());
         }
     }
 }
