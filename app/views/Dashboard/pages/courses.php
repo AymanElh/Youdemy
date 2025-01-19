@@ -9,6 +9,7 @@ use App\Classes\Category;
 use App\Classes\Tag;
 use App\Classes\User;
 use App\Controllers\CourseController;
+use App\Controllers\Auth\Auth;
 
 Session::start();
 
@@ -48,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+Auth::checkAccess(['admin', 'teacher']);
 
 
 ?>

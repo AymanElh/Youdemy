@@ -5,6 +5,7 @@ require_once __DIR__ . '/../../../../vendor/autoload.php';
 
 use App\Classes\BaseModel;
 use App\Controllers\TagController;
+use App\Controllers\Auth\Auth;
 
 $basemodel = new BaseModel;
 $tag = new TagController;
@@ -35,6 +36,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: tags.php?result=" . urlencode($result));
     exit;
 }
+Auth::checkAccess(['admin']);
 
 
 ?>

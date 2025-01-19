@@ -10,7 +10,7 @@ Session::start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     Session::destroy();
-    header("Location: /app/public/index.php");
+    header("Location: /Brief-11%20Youdemy/app/public/index.php");
     exit;
 }
 

@@ -4,6 +4,8 @@ require_once __DIR__ . '/../../../../vendor/autoload.php';
 
 use App\Classes\BaseModel;
 use App\Controllers\CategoryController;
+use App\Controllers\Auth\Auth;
+
 
 $baseModel = new BaseModel;
 $category = new CategoryController;
@@ -39,6 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // var_dump($categories);
+
+Auth::checkAccess(['admin']);
 
 ?>
 <!doctype html>

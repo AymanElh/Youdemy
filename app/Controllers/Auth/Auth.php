@@ -66,4 +66,19 @@ class Auth
     {
         Session::destroy();
     }
+
+    public static function checkAccess(array $roles = []) 
+    {
+        Session::start();
+
+        if(!Session::exists('user')) {
+            header("Location: ../public/index.php");
+            exit;
+        }
+
+        if(!empty($roles) && !in_array(Session::get('user')[0]['role'], $roles)) {
+            header("Location: /Brief-11%20Youdemy/app/public/index.php");
+            exit;
+        }
+    }
 }

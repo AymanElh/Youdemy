@@ -1,3 +1,13 @@
+<?php 
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
+use App\Controllers\Auth\Auth;
+
+Auth::checkAccess(['admin', 'teacher']);
+
+?>
+
 <!doctype html>
 <html lang="en">
 
