@@ -3,13 +3,28 @@
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Classes\Session;
-use App\Controllers\Auth\Auth;
+use App\Classes\Teacher;
+use App\Classes\BaseModel;
+use App\Controllers\TeacherController;
 
+new BaseModel;
 Session::start();
 
+if (Session::exists('user')) {
+    $role = Session::get('user')[0]['role'];
+} else {
+    $role = null;
+}
 
-// echo Session::get('user')['role'];
-// die;
+$teacher = new TeacherController;
+
+if (isset($_POST['make-request']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    var_dump("You are requesting...");
+    $message = $teacher->makeeRequest();
+    var_dump($message);
+    echo "<script>alert($message)</script>";
+    header("Location: index.php");
+}
 
 ?>
 
@@ -86,7 +101,7 @@ Session::start();
                             </button>
                         </div>
                     </div>
-                </div>  
+                </div>
             </div>
         </div>
     </div>
@@ -94,11 +109,15 @@ Session::start();
     <!-- Call to Action -->
     <div class="bg-blue-600 text-white py-16">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold mb-4">Start Teaching Today</h2>
-            <p class="text-xl mb-8">Share your knowledge and earn money by creating online courses</p>
-            <button class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100">
-                Become an Instructor
-            </button>
+            <?php if ($role === 'student') :  ?>
+                <h2 class="text-3xl font-bold mb-4">Start Teaching Today</h2>
+                <p class="text-xl mb-8">Share your knowledge and earn money by creating online courses</p>
+                <form action="" method="post">
+                    <button type="submit" name="make-request" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100">
+                        Become an Instructor
+                    </button>
+                </form>
+            <?php endif; ?>
         </div>
     </div>
 
