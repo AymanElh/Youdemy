@@ -146,5 +146,24 @@ abstract class User
         }
     }
 
+    public static function banUser(int $userId) 
+    {
+        try {
+            BaseModel::updateRecord('users', ['isBanned' => 1], $userId);
+        }
+        catch(\Exception $e) {
+            error_log("Error updating the record: ". $e->getMessage());
+        }
+    }
+
+    public static function UnbanUser(int $userId) 
+    {
+        try {
+            BaseModel::updateRecord('users', ['isBanned' => 0], $userId);
+        }
+        catch(\Exception $e) {
+            error_log("Error updating the record: ". $e->getMessage());
+        }
+    }
     
 }

@@ -66,3 +66,11 @@ CREATE TABLE enrollments (
     CONSTRAINT fk_enroll_course FOREIGN KEY (courseId) REFERENCES courses(id),
     CONSTRAINT fk_enroll_student FOREIGN KEY (userId) REFERENCES users(id) 
 );
+CREATE TABLE teacherRequests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    userId INT NOT NULL,
+    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    responseDate TIMESTAMP NULL,
+    FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+);

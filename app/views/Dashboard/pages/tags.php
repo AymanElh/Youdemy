@@ -50,10 +50,9 @@ Auth::checkAccess(['admin']);
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content="Youdemy - Online Learning Platform" />
-    <?php include '../../components/head.php'; ?>
+    <?php include '../../components/head.php'?>
     <link rel="stylesheet" href="../../../public/assets/css/theme.css" />
-    <link rel="stylesheet" href="../../../public/assets/css/styles.css" />
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <!-- <link rel="stylesheet" href="../../../public/assets/css/styles.css" /> -->
     <title>Tags - Youdemy</title>
     <style>
         /* Custom CSS for modal positioning */
@@ -69,7 +68,7 @@ Auth::checkAccess(['admin']);
             justify-content: center;
             z-index: 1000;
         }
-
+        
         .modal-content {
             position: relative;
             background-color: white;
@@ -104,7 +103,7 @@ Auth::checkAccess(['admin']);
                         <div class="border-b border-gray-300 px-5 py-4">
                             <h4>Tags List</h4>
                         </div>
-
+                        
                         <div class="relative overflow-x-auto">
                             <table class="text-left w-full whitespace-nowrap border-collapse">
                                 <thead>
@@ -119,7 +118,7 @@ Auth::checkAccess(['admin']);
                                     <?php
                                     $count = 1;
                                     foreach ($tags as $tag) :
-                                    ?>
+                                        ?>
                                         <tr>
                                             <td class="px-6 py-3"><?= $count++ ?></td>
                                             <td class="px-6 py-3"><?= $tag['name'] ?></td>
@@ -128,7 +127,7 @@ Auth::checkAccess(['admin']);
                                                 <button onclick="openDeleteTagModal(<?= $tag['id'] ?>)" class="btn btn-sm bg-red-500 text-white px-3 py-1 rounded">Delete</button>
                                             </td>
                                         </tr>
-                                    <?php endforeach; ?>
+                                        <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -139,10 +138,11 @@ Auth::checkAccess(['admin']);
 
         <?php include("../../components/modals.php"); ?>
     </main>
-
-
+    
+    
     <script src="../../../public/assets/js/main.js"></script>
     <script src="../../../public/assets/js/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 
 </html>
