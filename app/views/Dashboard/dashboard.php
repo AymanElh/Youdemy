@@ -1,8 +1,27 @@
-<?php 
+<?php
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
+use App\Classes\BaseModel;
+use App\Classes\Statistics;
+use App\Classes\User;
 use App\Controllers\Auth\Auth;
+use App\Controllers\CourseController;
+use App\Controllers\EnrollController;
+use App\Controllers\StatisticsController;
+
+new BaseModel;
+
+$courseContr = new CourseController;
+$courses = $courseContr->getAllCourses();
+
+$statisticsContr = new StatisticsController;
+
+$stats = $statisticsContr->getDashboardStats();
+// echo "<pre>";
+// var_dump($stats['PendingCourses']);
+// echo "</pre>";
+// die;
 
 Auth::checkAccess(['admin', 'teacher']);
 
@@ -23,6 +42,15 @@ Auth::checkAccess(['admin', 'teacher']);
     <link rel="stylesheet" href="../../node_modules/apexcharts/dist/apexcharts.css" />
     <link rel="stylesheet" href="../../public/assets/css/theme.css" />
     <title>Youdemy </title>
+    <style>
+        #enrollmentPieChart {
+            max-width: 300px;
+            max-height: 300px;
+            width: 100%;
+            height: auto;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -52,11 +80,7 @@ Auth::checkAccess(['admin', 'teacher']);
                                 </div>
                             </div>
                             <div class="mt-4 flex flex-col gap-0 text-base">
-                                <h2 class="text-xl font-bold">18</h2>
-                                <div>
-                                    <span>2</span>
-                                    <span class="text-gray-500">Completed</span>
-                                </div>
+                                <h2 class="text-xl font-bold"><?= $stats['TotalCourses']; ?></h2>
                             </div>
                         </div>
                     </div>
@@ -72,11 +96,7 @@ Auth::checkAccess(['admin', 'teacher']);
                                 </div>
                             </div>
                             <div class="mt-4 flex flex-col gap-0 text-base">
-                                <h2 class="text-xl font-bold">132</h2>
-                                <div>
-                                    <span>28</span>
-                                    <span class="text-gray-500">Completed</span>
-                                </div>
+                                <h2 class="text-xl font-bold"><?= $stats['TotalTeachers']; ?></h2>
                             </div>
                         </div>
                     </div>
@@ -92,11 +112,7 @@ Auth::checkAccess(['admin', 'teacher']);
                                 </div>
                             </div>
                             <div class="mt-4 flex flex-col gap-0 text-base">
-                                <h2 class="text-xl font-bold">12</h2>
-                                <div>
-                                    <span>1</span>
-                                    <span class="text-gray-500">Completed</span>
-                                </div>
+                                <h2 class="text-xl font-bold"><?= $stats['TotalStudents'] ?></h2>
                             </div>
                         </div>
                     </div>
@@ -112,11 +128,7 @@ Auth::checkAccess(['admin', 'teacher']);
                                 </div>
                             </div>
                             <div class="mt-4 flex flex-col gap-0 text-base">
-                                <h2 class="text-xl font-bold">20</h2>
-                                <div>
-                                    <span class="text-green-600">5%</span>
-                                    <span class="text-gray-500">Completed</span>
-                                </div>
+                                <h2 class="text-xl font-bold"><?= $stats['TotalEnrollments'] ?></h2>
                             </div>
                         </div>
                     </div>
@@ -136,68 +148,53 @@ Auth::checkAccess(['admin', 'teacher']);
                                         <tr>
                                             <th scope="col" class="border-b bg-gray-100 px-6 py-3">Course name</th>
                                             <th scope="col" class="border-b bg-gray-100 px-6 py-3">Enrolled Students</th>
+                                            <th scope="col" class="border-b bg-gray-100 px-6 py-3">Category</th>
                                             <th scope="col" class="border-b bg-gray-100 px-6 py-3">Tags</th>
                                             <th scope="col" class="border-b bg-gray-100 px-6 py-3">Teacher</th>
-                                            <th scope="col" class="border-b bg-gray-100 px-6 py-3">Progress</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
-                                                <div class="flex items-center">
-                                                    <img src="./assets/images/svg/brand-logo-1.svg" alt="" class="h-6 w-6" />
+                                        <?php foreach ($stats['CoursesWithtTotalEnrollments'] as $course) : ?>
+                                            <tr>
+                                                <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
+                                                    <div class="flex items-center">
+                                                        <img src="./assets/images/svg/brand-logo-1.svg" alt="" class="h-6 w-6" />
 
-                                                    <h5 class="mb-1 ml-4"><a href="#!">FrontEnd Development</a></h5>
-                                                </div>
-                                            </td>
-                                            <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">34</td>
-                                            <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
-                                                <span class="bg-yellow-200 px-2 py-1 text-yellow-700 text-sm font-medium rounded-full inline-block whitespace-nowrap text-center">Medium</span>
-                                            </td>
-                                            <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
-                                                <div class="-space-x-5">
-                                                    <img class="relative inline-block object-cover w-8 h-8 rounded-full border-white border-2" src="./assets/images/avatar/avatar-1.jpg" alt="Profile image" />
-                                                    <img class="relative inline-block object-cover w-8 h-8 rounded-full border-white border-2" src="./assets/images/avatar/avatar-2.jpg" alt="Profile image" />
-                                                    <img class="relative inline-block object-cover w-8 h-8 border-2 rounded-full border-white" src="./assets/images/avatar/avatar-1.jpg" alt="Profile image" />
-                                                    <div class="relative w-8 h-8 bg-indigo-600 rounded-full inline-flex items-center justify-center text-white text-sm border-2 border-white">2+</div>
-                                                </div>
-                                            </td>
-                                            <td class="border-b border-gray-300 py-3 px-6 pe-6 text-left">
-                                                <div class="flex items-center gap-2">
-                                                    <div>15%</div>
-                                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
-                                                        <div class="bg-indigo-600 h-1.5 rounded-full" style="width: 15%"></div>
+                                                        <h5 class="mb-1 ml-4"><?= $course['title'] ?></h5>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                                <td class="border-b border-gray-300 font-medium py-3 px-6 text-left"><?= $course['Enrollments'] ?></td>
+                                                <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
+                                                    <span class="bg-yellow-200 px-2 py-1 text-yellow-700 text-sm font-medium rounded-full inline-block whitespace-nowrap text-center"> <?= $course['categoryName'] ?> </span>
+                                                </td>
+                                                <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
+                                                    <div class="-space-x-5">
+                                                        <?= $course['tags'] ?>
+                                                    </div>
+                                                </td>
+                                                <td class="border-b border-gray-300 py-3 px-6 pe-6 text-left">
+                                                    <?= $course['fullName'] ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <!-- card pie chart-->
-                    <div class="card h-full shadow">
+
+                    <!-- Pie chart -->
+                    <div class="card h-full shadow items-center w-full">
                         <div class="border-b border-gray-300 px-5 py-4 flex justify-between items-center">
                             <h4>Platform Statistics</h4>
-                            <!-- dropdown -->
-                            <div class="dropdown leading-4">
-                                <button class="text-gray-600 p-2 hover:bg-gray-300 rounded-full transition-all" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i data-feather="more-vertical" class="w-4 h-4"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </div>
                         </div>
                         <!-- card body -->
-                        <div class="card-body">
-                            <div id="perfomanceChart"></div>
+                        <div class="card-body items-center">
+                            <canvas id="enrollmentPieChart" width="300" height="300"></canvas>
                         </div>
                     </div>
                 </div>
+
                 <div class="mx-6 my-6 grid grid-cols-1 lg:grid-cols-2 grid-rows-1 grid-flow-row-dense gap-6">
                     <div>
                         <div class="card h-full shadow">
@@ -205,24 +202,6 @@ Auth::checkAccess(['admin', 'teacher']);
                                 <!-- title -->
                                 <div>
                                     <h4>Pending Approvals</h4>
-                                </div>
-                                <div>
-                                    <!-- button -->
-                                    <div class="dropdown leading-4">
-                                        <button
-                                            class="btn btn-sm gap-x-2 bg-white text-gray-800 border-gray-300 border disabled:opacity-50 disabled:pointer-events-none hover:text-white hover:bg-gray-700 hover:border-gray-700 active:bg-gray-700 active:border-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300"
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            Add Task
-                                        </button>
-                                        <!-- list -->
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                                    </div>
                                 </div>
                             </div>
 
@@ -237,22 +216,31 @@ Auth::checkAccess(['admin', 'teacher']);
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
-                                                <div class="flex items-center">
-                                                    <input
-                                                        class="w-4 h-4 text-indigo-600 bg-white border-gray-300 rounded focus:ring-indigo-600 focus:outline-none focus:ring-2"
-                                                        type="checkbox"
-                                                        id="checkboxOne" />
-                                                    <label for="checkboxOne" class="text-base ml-2 text-slate-600">Ayman Elh</label>
-                                                </div>
-                                            </td>
-                                            <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">Backend Development</td>
-                                            <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
-                                                <span class="bg-green-100 px-2 py-1 text-green-700 text-sm font-medium rounded-md">Approve</span>
-                                                <span class="bg-green-100 px-2 py-1 text-green-700 text-sm font-medium rounded-md">Reject</span>
-                                            </td>
-                                        </tr>
+                                        <?php if (!empty($stats['PendingCourses'])) : ?>
+                                            <?php foreach ($stats['PendingCourses'] as $pendingCourse) :  ?>
+                                                <tr>
+                                                    <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
+                                                        <div class="flex items-center">
+                                                            <input
+                                                                class="w-4 h-4 text-indigo-600 bg-white border-gray-300 rounded focus:ring-indigo-600 focus:outline-none focus:ring-2"
+                                                                type=""
+                                                                id="checkboxOne" />
+                                                            <label for="checkboxOne" class="text-base ml-2 text-slate-600"><?= $pendingCourse['fullName'] ?></label>
+                                                        </div>
+                                                    </td>
+                                                    <td class="border-b border-gray-300 font-medium py-3 px-6 text-left"><?= $pendingCourse['title'] ?></td>
+                                                    <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
+                                                        <span class="bg-green-100 px-2 py-1 text-green-700 text-sm font-medium rounded-md"><?= $pendingCourse['status'] ?></span>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="3" class="border-b border-gray-300 font-medium py-3 px-6 text-center">
+                                                    No courses pending approval
+                                                </td>
+                                            </tr>
+                                        <?php endif; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -261,7 +249,7 @@ Auth::checkAccess(['admin', 'teacher']);
                     <!-- card -->
                     <div class="card h-full shadow">
                         <div class="border-b border-gray-300 px-5 py-4">
-                            <h4>Teams</h4>
+                            <h4>Top Teacher</h4>
                         </div>
                         <div class="relative overflow-x-auto" data-simplebar="" style="max-height: 380px">
                             <!-- table -->
@@ -269,39 +257,36 @@ Auth::checkAccess(['admin', 'teacher']);
                                 <thead class="text-gray-700">
                                     <tr>
                                         <th scope="col" class="border-b bg-gray-100 px-6 py-3">Name</th>
-                                        <th scope="col" class="border-b bg-gray-100 px-6 py-3">Role</th>
-                                        <th scope="col" class="border-b bg-gray-100 px-6 py-3">Last Activity</th>
-                                        <th scope="col" class="border-b bg-gray-100 px-6 py-3"></th>
+                                        <th scope="col" class="border-b bg-gray-100 px-6 py-3">Total Courses</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
-                                            <div class="flex items-center">
-                                                <div>
-                                                    <a href="#!" class="h-10 w-10 inline-block"><img src="assets/images/avatar/avatar-2.jpg" alt="Image" class="rounded-full" /></a>
-                                                </div>
-                                                <div class="ml-3 leading-4">
-                                                    <h5 class="mb-1"><a href="#!">Anita Parmar</a></h5>
-                                                    <p class="mb-0 text-gray-500">anita@example.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">Front End Developer</td>
-                                        <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">3 May, 2023</td>
-                                        <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
-                                            <div class="dropdown leading-4">
-                                                <button class="text-gray-600 p-2 hover:bg-gray-300 rounded-full transition-all" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i data-feather="more-vertical" class="w-4 h-4"></i>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <?php if (!empty($stats['TopTeachers'])) : ?>
+                                        <?php foreach ($stats['TopTeachers'] as $teacher) : ?>
+                                            <tr>
+                                                <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
+                                                    <div class="flex items-center">
+                                                        <div>
+                                                            <a href="#!" class="h-10 w-10 inline-block"><img src="assets/images/avatar/avatar-2.jpg" alt="Image" class="rounded-full" /></a>
+                                                        </div>
+                                                        <div class="ml-3 leading-4">
+                                                            <h5 class="mb-1"><a href="#!"><?= $teacher['fullName'] ?></a></h5>
+                                                            <p class="mb-0 text-gray-500"><?= $teacher['email'] ?></p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">
+                                                    <?= $teacher['TotalCourses'] ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="2" class="border-b border-gray-300 font-medium py-3 px-6 text-center">
+                                                No teachers found
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -311,8 +296,67 @@ Auth::checkAccess(['admin', 'teacher']);
             </div>
         </div>
         <!-- end of project -->
+
     </main>
     <?php include "../components/scripts.php"; ?>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const canvas = document.getElementById('enrollmentPieChart');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+
+
+            const enrollmentPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Web Development', 'Data Science', 'Design'],
+                    datasets: [{
+                        label: 'Enrollments by Category',
+                        data: [45, 30, 25],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            console.error('Canvas element for chart not found.');
+        }
+    </script>
+
+
     <script src="../../public/assets/js/index.js"></script>
 </body>
 

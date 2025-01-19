@@ -150,4 +150,14 @@ class CourseController
         }
         return "Course Accepted";
     }
+
+    public function searchCourses() 
+    {
+        if(isset($_POST['search-btn']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            $keyword = Validation::sanitizeInput($_POST['keyword']);
+
+            $result = Course::searchCourses($keyword);
+            return $result ?? [];
+        }
+    }
 }
