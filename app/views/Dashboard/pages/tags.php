@@ -52,7 +52,7 @@ Auth::checkAccess(['admin']);
     <meta name="description" content="Youdemy - Online Learning Platform" />
     <?php include '../../components/head.php'?>
     <link rel="stylesheet" href="../../../public/assets/css/theme.css" />
-    <!-- <link rel="stylesheet" href="../../../public/assets/css/styles.css" /> -->
+    <link rel="stylesheet" href="../../../public/assets/css/styles.css" />
     <title>Tags - Youdemy</title>
     <style>
         /* Custom CSS for modal positioning */

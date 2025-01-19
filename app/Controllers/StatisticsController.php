@@ -15,7 +15,7 @@ class StatisticsController {
         $this->statistics = new Statistics(Database::connect());
     }
 
-    public function getDashboardStats() {
+    public function getAdminDashboardStats() {
         return [
             'TotalCourses' => Course::getCountCourses(),
             'TotalTeachers' => User::getCountUser('teacher'),
@@ -24,6 +24,15 @@ class StatisticsController {
             'CoursesWithtTotalEnrollments' => $this->statistics->getCourses(),
             'PendingCourses' => $this->statistics->getPendingCourses(),
             'TopTeachers' => $this->statistics->getTopTeachers()
+        ];
+    }
+
+    public function getTeacherDashboardStats($teacherId) {
+        return [
+            'TotalCourses' => count(Course::getTeacherCourses($teacherId)),
+            'TotalEnrollments' => $this->statistics->totalEnrollmentsByTeacher($teacherId),
+            'CoursesWithtTotalEnrollments' => $this->statistics->getCourses($teacherId),
+            'TeacherCourses' => $this->statistics->getTeacherCourses($teacherId)
         ];
     }
 }
