@@ -15,10 +15,11 @@ class Course
     private string $content;
     private int $categoryId;
     private string $creationDate;
+    private ?string $coverImage;
     private int $teacherId;
     private array $tags = [];
 
-    public function __construct(string $title, string $description, string $type, string $content, string $category, array $tags, int $teacherId, string $date = '', int $id = null)
+    public function __construct(string $title, string $description, string $type, string $content, string $category, array $tags, int $teacherId, ?string $coverImage, string $date = '', int $id = null)
     {
         $this->title = $title;
         $this->description = $description;
@@ -27,6 +28,7 @@ class Course
         $this->categoryId = $category;
         $this->tags = $tags;
         $this->creationDate = $date;
+        $this->coverImage = $coverImage;
         $this->teacherId = $teacherId;
         $this->id = $id;
     }
@@ -50,6 +52,11 @@ class Course
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    public function getImage() : ?string
+    {
+        return $this->coverImage;
     }
 
     public function getCategoryId(): int

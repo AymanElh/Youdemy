@@ -13,6 +13,7 @@ class VideoCourseCreator implements CourseManagment
             'description' => $course->getDescription(),
             'type' => 'video',
             'content' => $course->getContent(),
+            'coverImg' => $course->getImage(),
             'categoryId' => $course->getCategoryId(),
             'teacherId' => $course->getTeacherId()
         ];

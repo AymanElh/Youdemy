@@ -3,6 +3,7 @@
 namespace App\Classes;
 
 use App\Classes\Interfaces\CourseManagment;
+use App\Classes\Session;
 
 class DocumentCourse implements CourseManagment
 {
@@ -14,8 +15,9 @@ class DocumentCourse implements CourseManagment
             'description' => $course->getDescription(),
             'type' => 'document',
             'content' => $course->getContent(),
+            'coverImg' => $course->getImage(),
             'categoryId' => $course->getCategoryId(),
-            'teacherId' => 1
+            'teacherId' => $course->getTeacherId()
         ];
 
         $courseId = BaseModel::insertRecord('courses', $data);
