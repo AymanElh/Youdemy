@@ -31,8 +31,9 @@ if ($role === 'admin') {
 
 if (isset($_POST['logout']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     (new Auth)->logout();
-    header("Location: index.php");
+    header("Location: ../../public/index.php");
 }
+// var_dump(Session::get('user')); die;
 Auth::checkAccess(['admin', 'teacher']);
 
 ?>
@@ -173,6 +174,10 @@ Auth::checkAccess(['admin', 'teacher']);
                                         </thead>
                                         <tbody>
                                             <?php
+                                            // echo "<pre>";
+                                            // var_dump($stats['CoursesWithtTotalEnrollments']); 
+                                            // echo "</pre>";
+                                            // die;
                                             foreach ($stats['CoursesWithtTotalEnrollments'] as $course) : ?>
                                                 <tr>
                                                     <td class="border-b border-gray-300 font-medium py-3 px-6 text-left">

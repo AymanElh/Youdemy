@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
+require_once '../../helpers/ChangeVideoLink.php';
 
 use App\Classes\BaseModel;
 use App\Classes\Category;
@@ -13,6 +14,9 @@ use App\Controllers\EnrollController;
 
 Session::start();
 
+if (Session::exists('user')) {
+    $role = Session::get('user')[0]['role'];
+}
 new BaseModel;
 
 
@@ -36,7 +40,8 @@ if (Session::exists('user')) {
     $isEnrolled = in_array($userId, array_column($enrolledStudents, 'id'));
 }
 
-$enrollContr = (new EnrollController)->enrollCourse();
+$enroll = (new EnrollController)->enrollCourse();
+
 
 ?>
 
@@ -103,6 +108,7 @@ $enrollContr = (new EnrollController)->enrollCourse();
                             <button type="submit" name="enroll-course" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mb-4 hover:bg-blue-700 transition">
                                 Enroll Now
                             </button>
+                            <span><?= var_dump($enroll) ?></span>
                         </form>
                     <?php endif; ?>
                     <div class="space-y-4 text-sm">
@@ -196,11 +202,15 @@ $enrollContr = (new EnrollController)->enrollCourse();
                                 <span class="font-semibold">1. Introduction to OOP</span>
                                 <span class="text-gray-500">3 lectures • 45min</span>
                             </button>
-                            <?php if($course->getType() === 'video') : 
-                                var_dump($course->getContent());?>
-                                <iframe width="775" height="315" src="https://www.youtube.com/embed/zZ6vybT1HQs?si=O7mMXZxORGlADq4i" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    
+                            <?php if ($course->getType() === 'video') :
+                                $link = getYoutubeEmbedUrl($course->getContent());
+                                if ($link) : ?>
+                                    <iframe width="775" height="315" src="<?= $link ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <?php else : ?>
+                                    <p>Invalid YouTube URL.</p>
+                                <?php endif; ?>
                             <?php endif; ?>
+
                             <div class="border-t p-4 bg-gray-50">
                                 <ul class="space-y-4">
                                     <li class="flex items-center justify-between">

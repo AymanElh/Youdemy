@@ -126,7 +126,7 @@ class CourseController
     public function getCountCourses(): int
     {
         $result = Course::getCountCourses();
-        return $result ? $result[0]['totalCourses'] : 0;
+        return $result ?: 0;    
     }
 
     public function getTeacherCourses(int $teacherId): array

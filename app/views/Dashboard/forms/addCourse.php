@@ -82,14 +82,14 @@ $courseContr->createCourse();
                     id="type"
                     name="courseType"
                     class="border border-gray-300 text-gray-900 rounded focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2 px-3 disabled:opacity-50 disabled:pointer-events-none" required>
-                    <option value="">Select type</option>
+                    <option value="seletectype">Select type</option>
                     <option value="video">Video</option>
-                    <option value="Document">Document</option>
+                    <option value="document">Document</option>
                 </select>
             </div>
 
             <!-- Content (Dynamic based on Type) -->
-            <div id="videoContent" class="hidden">
+            <div id="videoContent" class="" style="display: none">
                 <label for="videoLink" class="mb-2 block text-gray-800">Video Link</label>
                 <input
                     type="url"
@@ -106,8 +106,8 @@ $courseContr->createCourse();
             </div> -->
 
              <!-- Document Content (Hidden Initially) -->
-             <div id="docContent" class="hidden">
-                <label for="">Content</label>
+             <div id="docContent" class="" sytle="display: none;">
+                <label for="doc-content">Content</label>
                 <textarea name="doc-content" id="doc-content"></textarea>
             </div>
             
@@ -163,22 +163,28 @@ $courseContr->createCourse();
         //     placeholder: 'Compose an epic...',
         //     theme: 'snow', // or 'bubble'
         // });
+                
+        // courseType = document.getElementById("type");
+        // console.log(courseType);
 
-        // Handle type selection
-        document.getElementById('type').addEventListener('change', function(e) {
+        document.getElementById("type").addEventListener('change', function() {
             const videoContent = document.getElementById('videoContent');
             const docContent = document.getElementById('docContent');
-
-            if (e.target.value === 'video') {
-                videoContent.classList.remove('hidden');
-                docContent.classList.add('hidden');
-            } else if (e.target.value === 'doc') {
-                console.log("helloo");
-                docContent.classList.remove('hidden');
-                videoContent.classList.add('hidden');
-            } else {
-                videoContent.classList.add('hidden');
-                docContent.classList.add('hidden');
+            console.log(videoContent);
+            console.log(docContent);
+            
+            if(this.value === "video") {
+                videoContent.style.display = 'block';
+                docContent.style.display = 'none';
+            } 
+            else if(this.value === "document") {
+                videoContent.style.display = 'none';
+                docContent.style.display = 'block;'
+            } 
+            else if(this.value === "seletectype") {
+                videoContent.style.display = 'none';
+                docContent.style.display = 'none';
             }
+            
         });
     </script>

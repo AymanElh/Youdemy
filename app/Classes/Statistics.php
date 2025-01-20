@@ -21,14 +21,15 @@ class Statistics
         LEFT JOIN categories cat ON cat.id = c.categoryId
         LEFT JOIN courseTags ct ON ct.courseId = c.id
         LEFT JOIN tags ON tags.id = ct.tagId
-        LEFT JOIN users u ON u.id = c.teacherId";
+        LEFT JOIN users u ON u.id = c.teacherId
+        WHERE c.status = 'published'";
 
         if($teacherId !== null) {
-            $query .= " WHERE c.teacherId = $teacherId";
+            $query .= " AND c.teacherId = $teacherId";
         }
 
         $query .= " GROUP BY c.id;";
-
+        
         $stmt = $this->db->prepare($query);
         if ($stmt->execute()) {
             $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -39,7 +40,7 @@ class Statistics
 
     public function getPendingCourses()
     {
-        $query = "SELECT fullName, title, status FROM courses JOIN users ON users.id = courses.teacherId WHERE status = 'pending';";
+        $query = "SELECT fullName, title, status FROM courses JOIN users ON users.id = courses.teacherId WHERE status = 'draft';";
         $stmt = $this->db->prepare($query);
         if ($stmt->execute()) {
             $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -88,11 +89,12 @@ class Statistics
 
     public function getPendingCoursesByTeacher(int $teacherId): array
     {
-        $query = "SELECT c.id AS courseId, c.title, c.status, cat.name AS category, GROUP_CONCAT(t.name SEPARATOR ', ') AS tags  FROM  courses c
+        $query = "SELECT fullName, c.id AS courseId, c.title, c.status, cat.name AS category, GROUP_CONCAT(t.name SEPARATOR ', ') AS tags  FROM  courses c
                 LEFT JOIN categories cat ON c.categoryId = cat.id
                 LEFT JOIN courseTags ct ON c.id = ct.courseId
                 LEFT JOIN tags t ON ct.tagId = t.id
-                WHERE c.teacherId = ? AND c.status = 'pending'
+                LEFT JOIN users ON users.id = c.teacherId
+                WHERE c.teacherId = ? AND c.status = 'draft'
                 GROUP BY c.id;";
 
         $stmt = $this->db->prepare($query);

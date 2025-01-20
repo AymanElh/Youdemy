@@ -11,7 +11,6 @@ function closeModal() {
 // Optional: Close modal when clicking outside
 document.addEventListener("click", function (event) {
   const modal = document.getElementById("categoryModal");
-  // const modalContent = modal.querySelector(".relative.bg-white");
 
   if (event.target === modal) {
     closeModal();

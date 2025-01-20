@@ -8,8 +8,10 @@ use App\Classes\Category;
 use App\Controllers\CourseController;
 
 $baseModel = new BaseModel;
-$category = new Category;
+$categoryClass = new Category;
 $courseContr = new CourseController;
+
+$categories = $categoryClass->getAllCategories();
 
 $limit = 9;
 
@@ -36,8 +38,8 @@ $searchedCourses = $courseContr->searchCourses();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LearnHub - All Courses</title>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-     <?php include '../components/head.php' ?>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <?php include '../components/head.php' ?>
 </head>
 
 <body class="bg-gray-50">
@@ -68,8 +70,7 @@ $searchedCourses = $courseContr->searchCourses();
                     id="default-search"
                     name="keyword"
                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                    placeholder="Search for courses..."
-                 />
+                    placeholder="Search for courses..." />
                 <button
                     type="submit"
                     name="search-btn"
@@ -79,6 +80,7 @@ $searchedCourses = $courseContr->searchCourses();
             </div>
         </form>
     </div>
+    
 
 
     <!-- Filter Section -->
@@ -88,12 +90,11 @@ $searchedCourses = $courseContr->searchCourses();
                 <div class="flex flex-wrap gap-4">
                     <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option>All Categories</option>
-                        <option>Programming</option>
-                        <option>Business</option>
-                        <option>Design</option>
-                        <option>Marketing</option>
+                        <?php foreach ($categories as $category) : ?>
+                            <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+                        <?php endforeach; ?>
                     </select>
-                    <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <!-- <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option>All Levels</option>
                         <option>Beginner</option>
                         <option>Intermediate</option>
@@ -111,7 +112,7 @@ $searchedCourses = $courseContr->searchCourses();
                     <option>Newest</option>
                     <option>Price: Low to High</option>
                     <option>Price: High to Low</option>
-                </select>
+                </select> -->
             </div>
         </div>
     </div>
@@ -128,7 +129,7 @@ $searchedCourses = $courseContr->searchCourses();
                         <img src="../../public/assets/img/mohammad-rahmani-8qEB0fTe9Vw-unsplash.jpg" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-2">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"><?= $category->getCategoryName($course['categoryId']) ?></span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"><?= $categoryClass->getCategoryName($course['categoryId']) ?></span>
                                 <span class="text-gray-800 font-bold">Free</span>
                             </div>
                             <h3 class="text-xl font-semibold mb-2"><?= htmlspecialchars($course['title']) ?></h3>
@@ -156,7 +157,7 @@ $searchedCourses = $courseContr->searchCourses();
                         <img src="../../public/assets/img/mohammad-rahmani-8qEB0fTe9Vw-unsplash.jpg" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-2">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"><?= $category->getCategoryName($course['categoryId']) ?></span>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"><?= $categoryClass->getCategoryName($course['categoryId']) ?></span>
                                 <span class="text-gray-800 font-bold">Free</span>
                             </div>
                             <h3 class="text-xl font-semibold mb-2"><?= htmlspecialchars($course['title']) ?></h3>
@@ -181,7 +182,8 @@ $searchedCourses = $courseContr->searchCourses();
 
         </div>
     </div>
-
+    <?php include '../components/footer.php' ?>
+    <?php include '../components/scripts.php' ?>
 </body>
 
 </html>

@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center h-16">
             <div class="flex items-center">
-                <a href="#" class="text-2xl font-bold text-blue-600">Youdemy</a>
+                <a href="<?= BASE_URL ?>/app/public/index.php" class="text-2xl font-bold text-blue-600">Youdemy</a>
             </div>
 
             <div class="hidden md:flex items-center space-x-4">

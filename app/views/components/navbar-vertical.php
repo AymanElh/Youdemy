@@ -59,7 +59,7 @@ if (Session::exists('user')) {
                x-transition:enter-start="opacity-0 transform -translate-y-2"
                x-transition:enter-end="opacity-100 transform translate-y-0"
                class="pl-10 pr-4 space-y-1 mt-1">
-               <a href="../Dashboard/pages/courses.php"
+               <a href="<?= BASE_URL ?>/app/views/Dashboard/pages/courses.php"
                   class="block px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors duration-200">
                   View All Courses
                </a>

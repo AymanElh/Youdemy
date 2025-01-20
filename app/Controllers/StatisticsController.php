@@ -27,12 +27,13 @@ class StatisticsController {
         ];
     }
 
-    public function getTeacherDashboardStats($teacherId) {
+    public function getTeacherDashboardStats(int $teacherId) {
         return [
             'TotalCourses' => count(Course::getTeacherCourses($teacherId)),
             'TotalEnrollments' => $this->statistics->totalEnrollmentsByTeacher($teacherId),
             'CoursesWithtTotalEnrollments' => $this->statistics->getCourses($teacherId),
-            'TeacherCourses' => $this->statistics->getTeacherCourses($teacherId)
+            'TeacherCourses' => $this->statistics->getTeacherCourses($teacherId),
+            'PendingCourses' => $this->statistics->getPendingCoursesByTeacher($teacherId)
         ];
     }
 }
