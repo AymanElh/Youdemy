@@ -80,7 +80,7 @@ class Enroll
         $stmt = (Database::connect())->prepare($query);
         $stmt->execute([$userId, $courseId]);
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        return $result['status'];
+        return $result['status'] ?? [];
         }
         catch(\Exception $e) {
             error_log("Error : " . $e->getMessage());

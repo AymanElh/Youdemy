@@ -104,4 +104,15 @@ class Statistics
         }
         return [];
     }
+
+    public function getTopCategories() : array
+    {
+        $query = "SELECT cat.name, COUNT(*) AS totalCategories FROM categories cat JOIN courses c ON cat.id = c.categoryId GROUP BY cat.id;";
+        $stmt = (Database::connect())->prepare($query);
+        if($stmt->execute()) {
+            $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
+        return $result ?? [];
+    }
 }

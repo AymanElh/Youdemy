@@ -6,6 +6,8 @@ use App\Classes\Session;
 use App\Classes\Teacher;
 use App\Classes\Category;
 use App\Classes\BaseModel;
+use App\Classes\Statistics;
+use App\Controllers\StatisticsController;
 use App\Controllers\TeacherController;
 
 new BaseModel;
@@ -19,7 +21,7 @@ if (Session::exists('user')) {
 
 $teacher = new TeacherController;
 
-$topCategories = (new Category)->getTopCategories();
+$topCategories = (new StatisticsController)->getAdminDashboardStats()['TopCategories'];
 
 // echo "<pre>" ;
 // var_dump($topCategories) ;

@@ -66,10 +66,10 @@ Auth::checkAccess(['admin', 'teacher']);
         name="description"
         content="Youdemy - Online Learning Platform" />
     <?php include '../../components/head.php' ?>
-    <link rel="stylesheet" href="../../../node_modules/apexcharts/dist/apexcharts.css" />
+    <!-- <link rel="stylesheet" href="../../../node_modules/apexcharts/dist/apexcharts.css" /> -->
     <link rel="stylesheet" href="../../../public/assets/css/theme.css" />
     <link rel="stylesheet" href="../../../public/assets/css/styles.css" />
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> -->
 
     <style>
         /* Custom CSS for modal positioning */
@@ -199,6 +199,7 @@ Auth::checkAccess(['admin', 'teacher']);
     </main>
     <script src="../../../public/assets/js/main.js"></script>
     <script src="../../../public/assets/js/index.js"></script>
+    
 
 </body>
 

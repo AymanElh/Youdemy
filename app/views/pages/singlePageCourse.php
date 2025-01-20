@@ -229,6 +229,8 @@ if(isset($_POST['complete-course']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <?php else : ?>
                                     <p>Invalid YouTube URL.</p>
                                 <?php endif; ?>
+                            <?php elseif($course->getType() === 'document') :?>
+                                <p><?= $course->getContent(); ?></p>
                             <?php endif; ?>
 
                             <div class="border-t p-4 bg-gray-50">

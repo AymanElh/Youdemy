@@ -34,6 +34,22 @@ if (isset($_POST['logout']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: ../../public/index.php");
 }
 // var_dump(Session::get('user')); die;
+$categories = array_map(function ($item) {
+    return $item['name'];
+}, $stats['TopCategories']);
+
+$values = array_map(function ($item) {
+    return $item['totalCategories'];
+}, $stats['TopCategories']);
+
+
+$categoriesJson = json_encode($categories);
+$valuesJson = json_encode($values);
+
+echo "<script>console.log('Categories:', " . $categoriesJson . ");</script>";
+echo "<script>console.log('Values:', " . $valuesJson . ");</script>";
+// die;
+
 Auth::checkAccess(['admin', 'teacher']);
 
 ?>
@@ -52,7 +68,7 @@ Auth::checkAccess(['admin', 'teacher']);
     <?php include '../components/head.php' ?>
     <link rel="stylesheet" href="../../node_modules/apexcharts/dist/apexcharts.css" />
     <link rel="stylesheet" href="../../public/assets/css/theme.css" />
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Youdemy </title>
     <style>
         #enrollmentPieChart {
@@ -79,7 +95,7 @@ Auth::checkAccess(['admin', 'teacher']);
                     <!-- title -->
                     <h1 class="text-xl text-white">Courses Mangments</h1>
                 </div>
-                <div class="-mt-12 mx-6 mb-6 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 xl:grid-cols-4">   
+                <div class="-mt-12 mx-6 mb-6 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 xl:grid-cols-4">
                     <!-- card -->
                     <div class="card shadow">
                         <!-- card body -->
@@ -88,7 +104,7 @@ Auth::checkAccess(['admin', 'teacher']);
                             <div class="flex justify-between items-center">
                                 <h4>Courses</h4>
                                 <div class="bg-indigo-600 bg-opacity-10 rounded-md w-10 h-10 flex items-center justify-center text-center text-indigo-600">
-                                    <i data-feather="briefcase"></i>
+                                    <img src="../../public/assets/img/book.png" alt="">
                                 </div>
                             </div>
                             <div class="mt-4 flex flex-col gap-0 text-base">
@@ -105,7 +121,7 @@ Auth::checkAccess(['admin', 'teacher']);
                                 <div class="flex justify-between items-center">
                                     <h4>Teachers</h4>
                                     <div class="bg-indigo-600 bg-opacity-10 rounded-md w-10 h-10 flex items-center justify-center text-center text-indigo-600">
-                                        <i data-feather="list"></i>
+                                        <img src="../../public/assets/img/writing.png" alt="">
                                     </div>
                                 </div>
                                 <div class="mt-4 flex flex-col gap-0 text-base">
@@ -121,7 +137,7 @@ Auth::checkAccess(['admin', 'teacher']);
                                 <div class="flex justify-between items-center">
                                     <h4>Students</h4>
                                     <div class="bg-indigo-600 bg-opacity-10 rounded-md w-10 h-10 flex items-center justify-center text-center text-indigo-600">
-                                        <i data-feather="users"></i>
+                                        <img src="../../public/assets/img/reading-book.png" alt="">
                                     </div>
                                 </div>
                                 <div class="mt-4 flex flex-col gap-0 text-base">
@@ -138,7 +154,7 @@ Auth::checkAccess(['admin', 'teacher']);
                             <div class="flex justify-between items-center">
                                 <h4>Total Enrollments</h4>
                                 <div class="bg-indigo-600 bg-opacity-10 rounded-md w-10 h-10 flex items-center justify-center text-center text-indigo-600">
-                                    <i data-feather="target"></i>
+                                    <img src="../../public/assets/img/school.png" alt="">
                                 </div>
                             </div>
                             <div class="mt-4 flex flex-col gap-0 text-base">
@@ -339,6 +355,9 @@ Auth::checkAccess(['admin', 'teacher']);
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const categories = <?php $categoriesJson ?>
+        console.log(categories);
+        const values = <?php $valuesJson ?>
         const canvas = document.getElementById('enrollmentPieChart');
         if (canvas) {
             const ctx = canvas.getContext('2d');
@@ -347,7 +366,7 @@ Auth::checkAccess(['admin', 'teacher']);
             const enrollmentPieChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: ['Web Development', 'Data Science', 'Design'],
+                    labels: ['Category A', 'Category B', 'Category C'],
                     datasets: [{
                         label: 'Enrollments by Category',
                         data: [45, 30, 25],

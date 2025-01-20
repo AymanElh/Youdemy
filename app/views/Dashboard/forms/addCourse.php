@@ -169,7 +169,7 @@ $courseContr->createCourse();
                 docContent.style.display = 'none';
             } else if (this.value === "document") {
                 videoContent.style.display = 'none';
-                docContent.style.display = 'block;'
+                docContent.style.display = 'block'
             } else if (this.value === "seletectype") {
                 videoContent.style.display = 'none';
                 docContent.style.display = 'none';

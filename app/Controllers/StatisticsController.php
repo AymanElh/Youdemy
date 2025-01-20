@@ -23,7 +23,8 @@ class StatisticsController {
             'TotalEnrollments' => Enroll::getTotalEnrollments(),
             'CoursesWithtTotalEnrollments' => $this->statistics->getCourses(),
             'PendingCourses' => $this->statistics->getPendingCourses(),
-            'TopTeachers' => $this->statistics->getTopTeachers()
+            'TopTeachers' => $this->statistics->getTopTeachers(),
+            'TopCategories' => $this->statistics->getTopCategories()
         ];
     }
 

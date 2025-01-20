@@ -42,17 +42,6 @@ class Admin extends User
     }
 
 
-    public function banUser(int $userId): bool
-    {
-        try {
-            return  BaseModel::updateRecord('users', ['status' => 'banned'], $userId);
-        } catch (\Exception $e) {
-            error_log("Error banning user (User ID: {$userId}): " . $e->getMessage());
-            return false;
-        }
-    }
-
-
     public function manageUserRole(int $userId, string $newRole): bool
     {
         try {
