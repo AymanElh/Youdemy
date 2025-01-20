@@ -34,7 +34,18 @@ class CourseController
                 throw new Exception("Content Invalid");
             }
 
-            $this->course = new Course($title, $description, $courseType, $content, $categoryId, $tags, $teacherId, '');
+            
+            if (isset($_FILES['cover-image']) && !empty($_FILES['cover-image']['name'])) {
+                // If a new cover-image is uploaded
+                var_dump("You are on the image uploader"); 
+                $coverImg = $_FILES['cover-image']['name'];
+                $temp_file = $_FILES['cover-image']['tmp_name'];
+                $folder = "../public/assets/img/$coverImg";
+                move_uploaded_file($temp_file, $folder);
+            }
+
+
+            $this->course = new Course($title, $description, $courseType, $content, $categoryId, $tags, $teacherId, $coverImg, '');
 
             if ($courseType === 'document') {
                 $courseCreator = new DocumentCourse();

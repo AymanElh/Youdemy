@@ -31,6 +31,7 @@ CREATE TABLE courses (
     type ENUM('video', 'document') NOT NULL,
     description TEXT,
     content TEXT,
+    coverImg VARCHAR(255),
     teacherId INT,
     categoryId INT,
     creationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
