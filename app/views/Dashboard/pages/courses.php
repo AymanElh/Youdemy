@@ -166,7 +166,7 @@ Auth::checkAccess(['admin', 'teacher']);
                                                 <td class="py-3 px-6 text-left">20</td>
                                                 <td>
                                                     <?php if ($course['status'] === 'draft' && Session::get('user')[0]['role'] === 'admin') : ?>
-                                                        <form action="" method="POST">
+                                                        <form action="" method="POST" class="flex flex-col">
                                                             <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
                                                             <button type="submit" onclick="if(confirm('Are you sure you want accept the course?')) this.form.submit()" class="bg-yellow-100 text-yellow-800 text-sm font-medium px-2 py-1 rounded" name="accept-course">Accept Course</button>
                                                         </form>
@@ -175,7 +175,7 @@ Auth::checkAccess(['admin', 'teacher']);
                                                     <?php endif; ?>
                                                 </td>
                                                 <td class="py-3 px-6 text-left">
-                                                    <button class="btn btn-sm bg-indigo-500 text-white">Read</button>
+                                                    <a href="../../pages/singlePageCourse.php?id=<?= $course['id'] ?>" class="btn btn-sm bg-indigo-500 text-white">Read</a>
                                                     <?php if (Session::get('user')[0]['role'] === 'teacher') : ?>
                                                         <a href="../forms/editCourse.php?courseId=<?= $course['id'] ?>" class="btn btn-sm bg-indigo-500 text-white">Edit</a>
                                                     <?php endif; ?>

@@ -17,13 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $authentication = new Auth();
     $result = $authentication->login($email, $password);
     if ($result === "login successfuly") {
-
-        echo "login successfully";
         header("Location: ../../public/index.php");
         exit;
     } else {
-        echo "Login failed";
-        die();
+        $result = "Login Failed";
     }
 }
 ?>
@@ -60,6 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- form -->
                 <form method="POST">
                     <!-- username -->
+                    <?php if ($result) : ?>
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                            <?= $result; ?>
+                        </div>
+                    <?php endif; ?>
                     <div class="mb-3">
                         <label for="email" class="inline-block mb-2">Username or email</label>
                         <input

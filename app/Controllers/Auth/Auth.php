@@ -38,7 +38,7 @@ class Auth
         if ($role === 'student') {
             $student = new Student($fullName, $username, $email, $hashedPassword, 'student');
             if ($student->createUser()) {
-                return "singup success";
+                return "Signup sccess";
             }
         }
 

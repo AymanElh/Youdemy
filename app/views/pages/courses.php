@@ -94,25 +94,6 @@ $searchedCourses = $courseContr->searchCourses();
                             <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <!-- <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option>All Levels</option>
-                        <option>Beginner</option>
-                        <option>Intermediate</option>
-                        <option>Advanced</option>
-                    </select>
-                    <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option>Price Range</option>
-                        <option>Free</option>
-                        <option>Paid</option>
-                        <option>All</option>
-                    </select>
-                </div>
-                <select class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option>Most Popular</option>
-                    <option>Newest</option>
-                    <option>Price: Low to High</option>
-                    <option>Price: High to Low</option>
-                </select> -->
             </div>
         </div>
     </div>

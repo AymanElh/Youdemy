@@ -161,7 +161,7 @@ class Course
                 $tagIds[] = $tag['tagId'];
             }
 
-            return new Course($courseData['title'], $courseData['description'], $courseData['type'], $courseData['content'], $courseData['categoryId'], $tagIds, $courseData['teacherId'], $courseData['creationDate'], $courseData['id']);
+            return new Course($courseData['title'], $courseData['description'], $courseData['type'], $courseData['content'], $courseData['categoryId'], $tagIds, $courseData['teacherId'], $courseData['coverImg'], $courseData['creationDate'], $courseData['id']);
         }
 
         return null;

@@ -56,7 +56,7 @@ class Teacher extends User
     public static function getAllTeachers(): array
     {
         try {
-            $query = "SELECT users.id AS userId, users.fullName, users.username, users.email, users.role, r.status FROM users JOIN teacherRequests r ON  users.id = r.userId WHERE  users.role = 'teacher';";
+            $query = "SELECT users.id AS userId, users.fullName, users.username, users.email, users.role, r.status, isBanned FROM users JOIN teacherRequests r ON  users.id = r.userId WHERE  users.role = 'teacher';";
 
             $stmt = (Database::connect())->prepare($query);
             $stmt->execute();

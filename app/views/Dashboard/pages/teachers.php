@@ -4,16 +4,25 @@ require_once __DIR__ . '/../../../../vendor/autoload.php';
 
 use App\Classes\BaseModel;
 use App\Classes\Session;
+use App\Classes\User;
 use App\Controllers\Auth\Auth;
 use App\Controllers\TeacherController;
 
 new BaseModel;
 $teacherContr = new TeacherController;
 
+if (Session::exists('user')) {
+    $userId = Session::get('user')[0]['id'];
+}
+
 $teachers = $teacherContr->getAllTeachers();
 // var_dump($teachers); die;
 $teacherRequests = $teacherContr->getTeacherRequests();
 $teacherContr->accpetTeacher();
+
+if (isset($_POST['ban-user']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    User::banUser($userId);
+}
 
 
 Auth::checkAccess(['admin']);
@@ -96,8 +105,15 @@ Auth::checkAccess(['admin']);
                                                     <span class="bg-green-100 text-green-800 text-sm font-medium px-2 py-1 rounded"><?= $teacher['status'] ?></span>
                                                 </td>
                                                 <td class="py-3 px-6 text-left">
-                                                    <button class="btn btn-sm bg-indigo-500 text-white">Ban</button>
-                                                    <button class="btn btn-sm bg-red-500 text-white">Delete</button>
+                                                    <form action="" method="post">
+                                                        <input type="hidden" name="userId" value="<?= $teacher['userId'] ?>">
+                                                        <?php if ($teacher['isBanned']) : ?>
+                                                            <button type="submit" name="unban-user" onclick="if(confirm('Are you sure to unban user?')) this.form.submit()" class="btn btn-sm bg-indigo-500 text-white">Unban</button>
+                                                        <?php else: ?>
+                                                            <button type="submit" name="ban-user" onclick="if(confirm('Are you sure to ban user?')) this.form.submit()" class="btn btn-sm bg-indigo-500 text-white">Ban</button>
+                                                        <?php endif; ?>
+                                                        <button type="submit" name="delete-user" class="btn btn-sm bg-red-500 text-white">Delete</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

@@ -68,6 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                     <p class="mb-6">Please enter your user information.</p>
                 </div>
                 <!-- form -->
+                 <!-- error -->
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"><?= $result ?></div>
                 <form action="" method="POST">
                     <!-- username -->
                     <div class="lg:flex 2xl:block gap-4">

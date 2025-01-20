@@ -103,9 +103,9 @@ class CourseController
     {
         if ($courseId > 0) {
             $this->course = Course::getCourseById($courseId);
-            echo "<pre>";
-            var_dump($this->course);
-            echo "</pre>";
+            // echo "<pre>";
+            // var_dump($this->course);
+            // echo "</pre>";
             // die;
 
             if ($this->course->delete()) {
@@ -157,10 +157,11 @@ class CourseController
     public function acceptCourse(int $courseid) : string
     {
         if(!Course::acceptCourse($courseid)) {
-            return "Course not accepted";
+            throw new Exception("Course accption error");
         }
         return "Course Accepted";
     }
+
 
     public function searchCourses() 
     {
