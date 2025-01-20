@@ -80,7 +80,7 @@ $searchedCourses = $courseContr->searchCourses();
             </div>
         </form>
     </div>
-    
+
 
 
     <!-- Filter Section -->
@@ -94,77 +94,106 @@ $searchedCourses = $courseContr->searchCourses();
                             <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
                         <?php endforeach; ?>
                     </select>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Courses Grid -->
-    <div class="max-w-7xl mx-auto px-4 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Courses Grid -->
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            <!-- Display Searched Courses if Available -->
-            <?php if (!empty($searchedCourses)): ?>
-                <h2 class="col-span-full text-2xl font-bold">Search Results:</h2>
-                <?php foreach ($searchedCourses as $course): ?>
-                    <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1">
-                        <img src="../../public/assets/img/mohammad-rahmani-8qEB0fTe9Vw-unsplash.jpg" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"><?= $categoryClass->getCategoryName($course['categoryId']) ?></span>
-                                <span class="text-gray-800 font-bold">Free</span>
-                            </div>
-                            <h3 class="text-xl font-semibold mb-2"><?= htmlspecialchars($course['title']) ?></h3>
-                            <p class="text-gray-600 mb-4"><?= htmlspecialchars($course['description']) ?></p>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <img src="/api/placeholder/32/32" alt="Instructor" class="w-8 h-8 rounded-full">
-                                    <span class="ml-2 text-md text-gray-600"><?= User::getUserById($course['teacherId'])[0]['fullName'] ?></span>
+                <!-- Display Searched Courses if Available -->
+                <?php if (!empty($searchedCourses)): ?>
+                    <h2 class="col-span-full text-2xl font-bold">Search Results:</h2>
+                    <?php foreach ($searchedCourses as $course): ?>
+                        <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1">
+                            <img src="../../public/assets/img/mohammad-rahmani-8qEB0fTe9Vw-unsplash.jpg" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"><?= $categoryClass->getCategoryName($course['categoryId']) ?></span>
+                                    <span class="text-gray-800 font-bold">Free</span>
                                 </div>
-                                <div class="flex items-center">
-                                    <a href="./singlePageCourse.php?id=<?= $course['id'] ?>" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                        Read more
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-
-                <!-- Display Default Courses if No Search Results -->
-            <?php elseif (!empty($courses)): ?>
-                <h2 class="col-span-full text-2xl font-bold">All Courses:</h2>
-                <?php foreach ($courses as $course): ?>
-                    <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1">
-                        <img src="../../public/assets/img/mohammad-rahmani-8qEB0fTe9Vw-unsplash.jpg" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"><?= $categoryClass->getCategoryName($course['categoryId']) ?></span>
-                                <span class="text-gray-800 font-bold">Free</span>
-                            </div>
-                            <h3 class="text-xl font-semibold mb-2"><?= htmlspecialchars($course['title']) ?></h3>
-                            <p class="text-gray-600 mb-4"><?= htmlspecialchars($course['description']) ?></p>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <img src="/api/placeholder/32/32" alt="Instructor" class="w-8 h-8 rounded-full">
-                                    <span class="ml-2 text-md text-gray-600"><?= User::getUserById($course['teacherId'])[0]['fullName'] ?></span>
-                                </div>
-                                <div class="flex items-center">
-                                    <a href="./singlePageCourse.php?id=<?= $course['id'] ?>" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                        Read more
-                                    </a>
+                                <h3 class="text-xl font-semibold mb-2"><?= htmlspecialchars($course['title']) ?></h3>
+                                <p class="text-gray-600 mb-4"><?= htmlspecialchars($course['description']) ?></p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <img src="/api/placeholder/32/32" alt="Instructor" class="w-8 h-8 rounded-full">
+                                        <span class="ml-2 text-md text-gray-600"><?= User::getUserById($course['teacherId'])[0]['fullName'] ?></span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <a href="./singlePageCourse.php?id=<?= $course['id'] ?>" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                            Read more
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p class="col-span-full text-gray-600">No courses found.</p>
-            <?php endif; ?>
+                    <?php endforeach; ?>
 
+                    <!-- Display Default Courses if No Search Results -->
+                <?php elseif (!empty($courses)): ?>
+                    <h2 class="col-span-full text-2xl font-bold">All Courses:</h2>
+                    <?php foreach ($courses as $course): ?>
+                        <div class="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-1">
+                            <img src="../../public/assets/img/mohammad-rahmani-8qEB0fTe9Vw-unsplash.jpg" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"><?= $categoryClass->getCategoryName($course['categoryId']) ?></span>
+                                    <span class="text-gray-800 font-bold">Free</span>
+                                </div>
+                                <h3 class="text-xl font-semibold mb-2"><?= htmlspecialchars($course['title']) ?></h3>
+                                <p class="text-gray-600 mb-4"><?= htmlspecialchars($course['description']) ?></p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <img src="/api/placeholder/32/32" alt="Instructor" class="w-8 h-8 rounded-full">
+                                        <span class="ml-2 text-md text-gray-600"><?= User::getUserById($course['teacherId'])[0]['fullName'] ?></span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <a href="./singlePageCourse.php?id=<?= $course['id'] ?>" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                            Read more
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="col-span-full text-gray-600">No courses found.</p>
+                <?php endif; ?>
+
+            </div>
         </div>
-    </div>
-    <?php include '../components/footer.php' ?>
-    <?php include '../components/scripts.php' ?>
+
+        <div class="mt-12 mb-3 flex justify-center">
+            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+
+                <?php if ($page > 1): ?>
+                    <a href="?page=<?= $page - 1 ?>" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <span class="sr-only">Previous</span>
+                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                <?php endif; ?>
+
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <a href="?page=<?= $i ?>" class="relative inline-flex items-center px-4 py-2 border <?= $i === $page ? 'bg-blue-50 text-blue-600' : 'bg-white text-gray-700' ?> text-sm font-medium hover:bg-gray-50">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if ($page < $totalPages): ?>
+                    <a href="?page=<?= $page + 1 ?>" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <span class="sr-only">Next</span>
+                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4-4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                <?php endif; ?>
+            </nav>
+        </div>
+        <?php include '../components/footer.php' ?>
+        <?php include '../components/scripts.php' ?>
 </body>
 
 </html>

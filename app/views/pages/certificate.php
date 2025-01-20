@@ -1,5 +1,9 @@
 <?php
 require __DIR__ . '/../../../vendor/autoload.php';
+
+use App\Classes\BaseModel;
+use App\Classes\Course;
+use App\Classes\Session;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -9,6 +13,22 @@ $options->set('isPhpEnabled', true);
 $dompdf = new Dompdf($options);
 
 ob_start();
+
+new BaseModel;
+Session::start();
+
+if(!Session::exists('user')) {
+    throw new Exception("You should loggend in first");
+}
+
+$courseId = $_GET['course_id'];
+$fullName = Session::get('user')[0]['fullName'];
+
+
+$courseName = Course::getCourseById($courseId)->getTitle();
+
+header("Location: ../../public/index.php");
+exit;
 ?>
 <!DOCTYPE html>
 <html>
@@ -63,36 +83,35 @@ ob_start();
         
         <div class="certificate-body">
             <p>This is to certify that</p>
-            <h2>[Student Name]</h2>
+            <h2><?= $fullName ?></h2>
             <p>has successfully completed the course</p>
-            <h3>[Course Name]</h3>
-            <p>with a grade of [Grade/Score]</p>
+            <h3><?= $courseName ?></h3>
         </div>
         
         <div class="certificate-footer">
             <div>
                 <div style="height: 1px; width: 100px; background-color: #E2E8F0;"></div>
-                <p>Date Issued</p>
+                <p><?= date("Y-m-d"); ?></p>
             </div>
             <div>
                 <div style="height: 1px; width: 100px; background-color: #E2E8F0;"></div>
-                <p>Instructor Signature</p>
+                <p>Youdemy</p>
             </div>
         </div>
         
         <div class="certificate-footer" style="margin-top: 30px;">
             <div>
-                <p>Certificate ID: [UNIQUE-ID]</p>
+                <p></p>
             </div>
         </div>
     </div>
 </body>
 </html>
 <?php
-// $html = ob_get_clean();
+$html = ob_get_clean();
 
-// $dompdf->loadHtml($html);
-// $dompdf->setPaper('A4', 'portrait');
-// $dompdf->render();
-// $dompdf->stream("certificate-of-completion.pdf", array("Attachment" => 1));
+$dompdf->loadHtml($html);
+$dompdf->setPaper('A4', 'portrait');
+$dompdf->render();
+$dompdf->stream("certificate-of-completion.pdf", array("Attachment" => 1));
 ?>

@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
                 <a href="#" class="text-gray-600 hover:text-blue-600">Categories</a>
                 <?php if (Session::exists('user')): ?>
                     <?php if (Session::get('user')[0]['role'] === 'student') : ?>
-                        <a href="#" class="text-gray-600 hover:text-blue-600">My Courses</a>
+                        <a href="<?= BASE_URL ?>/app/views/pages/myCourses.php" class="text-gray-600 hover:text-blue-600">My Courses</a>
 
                     <?php elseif (Session::get('user')[0]['role'] === 'admin' || Session::get('user')[0]['role'] === 'teacher') : ?>
                         <a href="<?= BASE_URL ?>/app/views/dashboard/dashboard.php" class="text-gray-600 hover:text-blue-600">Dashboard</a>

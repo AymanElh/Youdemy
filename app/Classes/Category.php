@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Classes;
 
 use App\Classes\BaseModel;
+use App\Config\Database;
 
 
 class Category 
@@ -72,6 +73,17 @@ class Category
     {
         $result = BaseModel::selectRecords(self::$table, 'COUNT(*) AS TotalCategories');
         return $result ? $result[0]['TotalCategories'] : 0;
+    }
+
+    public function getTopCategories() : array
+    {
+        $query = "SELECT cat.name, COUNT(*) AS totalCategories FROM categories cat JOIN courses c ON cat.id = c.categoryId GROUP BY cat.id LIMIT 4;";
+        $stmt = (Database::connect())->prepare($query);
+        if($stmt->execute()) {
+            $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
+        return $result ?? [];
     }
 
 }

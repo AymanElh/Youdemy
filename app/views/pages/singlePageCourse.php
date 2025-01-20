@@ -12,36 +12,42 @@ use App\Classes\Session;
 use App\Classes\Enroll;
 use App\Controllers\EnrollController;
 
+new BaseModel;
+
 Session::start();
+$category = new Category;
+$tagClass = new Tag;
+$enroll = new Enroll();
 
 if (Session::exists('user')) {
     $role = Session::get('user')[0]['role'];
+    $userId = Session::get('user')[0]['id'];
+
+    if (isset($_GET['id'])) {
+        $courseId = (int)$_GET['id'];
+        $course = Course::getCourseById($courseId);
+        $enrollCourse = (new EnrollController)->enrollCourse();
+    }
+} else {
+    throw new Exception("Invalid course id");
 }
-new BaseModel;
 
-
-$category = new Category;
-$tagClass = new Tag;
-
-if (isset($_GET['id'])) {
-    $courseId = $_GET['id'];
-
-    $course = Course::getCourseById($courseId);
-}
 
 $isEnrolled = false;
 
 if (Session::exists('user')) {
     $userId = Session::get('user')[0]['id'];
-
-    $enroll = new Enroll();
+    
     $enrolledStudents = $enroll->getErollStudents($courseId);
-
+    
     $isEnrolled = in_array($userId, array_column($enrolledStudents, 'id'));
 }
 
-$enroll = (new EnrollController)->enrollCourse();
+$enrollmentStatus = $enroll->getEnrolmentsStatus($courseId, $userId);
 
+if(isset($_POST['complete-course']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    $enroll->completeCourse($courseId, $userId);
+}
 
 ?>
 
@@ -79,9 +85,9 @@ $enroll = (new EnrollController)->enrollCourse();
                             <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                             </svg>
-                            <span class="ml-1">4.8 (256 reviews)</span>
+                            <span class="ml-1">4.8</span>
                         </div>
-                        <div>1,234 students enrolled</div>
+                        <div><?= $enroll->getCountEnrollByCourse($course->getId()) ?></div>
                         <div><?= $course->getCreationDate() ?></div>
                     </div>
                     <!-- Instructor -->
@@ -98,18 +104,32 @@ $enroll = (new EnrollController)->enrollCourse();
                     <img src="../../public/assets/img/mohammad-rahmani-8qEB0fTe9Vw-unsplash.jpg" alt="Course preview" class="w-full rounded-lg mb-6 object-cover" style="max-height: 200px;">
                     <div class="text-3xl font-bold mb-4">FREE</div>
                     <?php if ($isEnrolled): ?>
-                        <button class="w-full bg-gray-400 text-white py-3 rounded-lg font-semibold mb-4 cursor-not-allowed" disabled>
-                            Enrolled
-                        </button>
+                        <div class="mb-4">
+                            <?php if ($enrollmentStatus === 'active'): ?>
+                                <form action="" method="post">
+                                    <input type="hidden" name="course_id" value="<?= $courseId ?>">
+                                    <input type="hidden" name="user_id" value="<?= $userId ?>">
+                                    <button name="complete-course" type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition">
+                                        Complete Course
+                                    </button>
+                                </form>
+                            <?php else: ?>
+                                <a href="certificate.php?course_id=<?= $courseId ?>" class="w-full bg-yellow-500 text-white py-3 rounded-lg font-semibold text-center block hover:bg-yellow-600 transition">
+                                    Get Certificate
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     <?php else : ?>
-                        <form action="" method="post">
-                            <input type="hidden" name="courseid" value="<?= $courseId ?>">
-                            <input type="hidden" name="userid" value="<?= $userId ?>">
-                            <button type="submit" name="enroll-course" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mb-4 hover:bg-blue-700 transition">
-                                Enroll Now
-                            </button>
-                            <span><?= var_dump($enroll) ?></span>
-                        </form>
+                        <?php if ($role === 'student') : ?>
+                            <form action="" method="post">
+                                <input type="hidden" name="courseid" value="<?= $courseId ?>">
+                                <input type="hidden" name="userid" value="<?= $userId ?>">
+                                <button type="submit" name="enroll-course" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mb-4 hover:bg-blue-700 transition">
+                                    Enroll Now
+                                </button>
+                                <span><?= var_dump($enroll) ?></span>
+                            </form>
+                        <?php endif; ?>
                     <?php endif; ?>
                     <div class="space-y-4 text-sm">
                         <div class="flex items-center">
@@ -151,8 +171,8 @@ $enroll = (new EnrollController)->enrollCourse();
                 <div class="bg-white rounded-xl shadow p-6 mb-8">
                     <h2 class="text-2xl font-bold mb-4">About This Course</h2>
                     <p class="text-gray-600 mb-4">
-                        This comprehensive course will teach you everything you need to know about Object-Oriented Programming in PHP.
-                        From basic concepts to advanced design patterns, you'll learn how to write clean, maintainable, and efficient code.
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quidem laborum, incidunt quos officia reiciendis, voluptatem porro tempora eius vero voluptatum distinctio dolor laudantium eveniet repudiandae dolorum voluptatibus placeat consectetur eligendi.
+                        Facilis sed tempore quod similique quae hic. Maxime sint consequuntur et sed eius quisquam porro beatae dolore esse tempore repellat a ullam voluptatum autem, odit quae velit commodi? Distinctio, quod.
                     </p>
                     <div class="grid grid-cols-2 gap-4 mt-6">
                         <div class="bg-gray-50 p-4 rounded-lg">

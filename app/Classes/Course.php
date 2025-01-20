@@ -44,7 +44,7 @@ class Course
         return $this->description;
     }
 
-    public function getType() : string 
+    public function getType(): string
     {
         return $this->type;
     }
@@ -54,7 +54,7 @@ class Course
         return $this->content;
     }
 
-    public function getImage() : ?string
+    public function getImage(): ?string
     {
         return $this->coverImage;
     }
@@ -166,7 +166,7 @@ class Course
 
         return null;
     }
-
+    
     public static function getAllCourses(): array
     {
         return BaseModel::selectRecords('courses');
@@ -195,7 +195,7 @@ class Course
     public static function getCountCourses(): int
     {
         $result = BaseModel::selectRecords('courses', 'COUNT(*) AS totalCourses');
-        if(!$result) {
+        if (!$result) {
             throw new Exception("Cannot get count of courses");
         }
 
@@ -216,12 +216,12 @@ class Course
         }
     }
 
-    public static function acceptCourse(int $id) 
+    public static function acceptCourse(int $id)
     {
         return BaseModel::updateRecord('courses', ['status' => 'published'], $id);
     }
 
-    public static function searchCourses(string $keyword) 
+    public static function searchCourses(string $keyword)
     {
         $keyword = "%" . $keyword . "%";
         $query = "SELECT * FROM courses WHERE title LIKE ? OR description LIKE ? OR content LIKE ?;";
@@ -229,5 +229,18 @@ class Course
         $stmt->execute([$keyword, $keyword, $keyword]);
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $result ?: [];
+    }
+
+    public static function getCoursesByCompletion($userId, $status)
+    {
+        $sql = "SELECT c.id, c.title, c.description, c.coverImg, c.status, cat.name AS category
+            FROM courses c
+            JOIN enrollments e ON c.id = e.courseId 
+            JOIN categories cat ON cat.id = c.categoryId
+            WHERE e.userId = ? AND e.status = ?";
+
+        $stmt = (Database::connect())->prepare($sql);
+        $stmt->execute([$userId, $status]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

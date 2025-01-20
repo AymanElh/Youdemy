@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Classes\Session;
 use App\Classes\Teacher;
+use App\Classes\Category;
 use App\Classes\BaseModel;
 use App\Controllers\TeacherController;
 
@@ -17,6 +18,12 @@ if (Session::exists('user')) {
 }
 
 $teacher = new TeacherController;
+
+$topCategories = (new Category)->getTopCategories();
+
+// echo "<pre>" ;
+// var_dump($topCategories) ;
+// echo "</pre>";
 
 if (isset($_POST['make-request']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     var_dump("You are requesting...");
@@ -54,32 +61,24 @@ if (isset($_POST['make-request']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <!-- Featured Categories -->
     <div class="max-w-7xl mx-auto px-4 py-16">
         <h2 class="text-3xl font-bold mb-8">Top Categories</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
-                <div class="text-4xl mb-4">💻</div>
-                <h3 class="font-semibold">Programming</h3>
-                <p class="text-gray-600">500+ Courses</p>
+
+        <?php if (count($topCategories) > 0) : ?>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <?php foreach ($topCategories as $category) : ?>
+                    <div class="bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
+                        <div class="text-4xl mb-4">💻</div>
+                        <h3 class="font-semibold"><?= htmlspecialchars($category['name']); ?></h3>
+                        <p class="text-gray-600"><?= htmlspecialchars($category['totalCategories']); ?> Courses</p>
+                    </div>
+                <?php endforeach; ?>
             </div>
-            <div class="bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
-                <div class="text-4xl mb-4">📊</div>
-                <h3 class="font-semibold">Business</h3>
-                <p class="text-gray-600">300+ Courses</p>
-            </div>
-            <div class="bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
-                <div class="text-4xl mb-4">🎨</div>
-                <h3 class="font-semibold">Design</h3>
-                <p class="text-gray-600">200+ Courses</p>
-            </div>
-            <div class="bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition">
-                <div class="text-4xl mb-4">📱</div>
-                <h3 class="font-semibold">Marketing</h3>
-                <p class="text-gray-600">400+ Courses</p>
-            </div>
-        </div>
+        <?php else : ?>
+            <p class="text-gray-600 text-center">No categories found.</p>
+        <?php endif; ?>
     </div>
+
 
     <!-- Featured Courses -->
     <div class="bg-gray-50 py-16">
@@ -94,7 +93,7 @@ if (isset($_POST['make-request']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
                         <h3 class="text-xl font-semibold mb-2">Complete PHP OOP Course 2024</h3>
                         <p class="text-gray-600 mb-4">Learn object-oriented programming with PHP from scratch</p>
                         <div class="flex items-center justify-between">
-                            <span class="text-gray-800 font-bold">$49.99</span>
+                            <span class="text-gray-800 font-bold">Free</span>
                             <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                                 Enroll Now
                             </button>
